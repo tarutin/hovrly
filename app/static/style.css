@@ -1,0 +1,37 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+* { margin:0; padding:0; outline:none; color:#fff; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
+*, *:before, *:after { box-sizing:inherit; -webkit-box-sizing:inherit; }
+html, body { background:#373737; color:#fff; font-size:15px; line-height:1.5; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance:button; cursor:pointer; }
+
+.titlebar { -webkit-app-region:drag; -webkit-user-select:none; text-align:center; font-size:80%; font-weight:600; padding:10px; opacity:.7; border-bottom:1px solid #222; }
+.app { }
+.app section { border-bottom:2px solid #5B5B5B; }
+.app section:last-of-type { border-bottom:none; }
+.search { position:relative; }
+.search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:500; font-size:15px; color:#fff; border:none; padding:10px 25px; }
+.search label { position:absolute; top:-2px; left:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:500; font-size:15px; }
+.exit button, .settings button { font-weight:500; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 25px; font-size:15px; }
+.exit button:hover, .settings button:hover { background:#5B5B5B; }
+.clock { padding:10px 20px; }
+.clock button { position:relative; font-weight:500; border:1px solid #fff; border-radius:4px; padding:5px 10px; margin:5px; background:transparent; font-size:15px; opacity:.2; }
+.clock button:hover { opacity:.5; }
+.clock button.active { opacity:1; }
+.clock button time { margin-left:5px; }
+.clock button span { display:none; position:absolute; top:-16px; right:-12px; }
+.clock button:hover span { display:inline-block; }
+.clock button span i { color:#fff; padding:5px; font-size:15px; }
+.settings button.active:before { font-family:'FontAwesome'; content:'\f00c'; margin-left:-18px; padding-right:3px; display:inline-block; }
+
+a, form input[type=submit], button { transition:all 0.1s linear 0s; }
+
+.light * { color:#000; }
+.light { background:#fff; }
+.light section { border-color:#f7f7f7; }
+.light .search input { color:#000; }
+.light .search label { color:#000; }
+.light .exit button, .light .settings button { color:#000; }
+.light .exit button:hover, .light .settings button:hover { background:#f7f7f7; color:#000; }
+.light .clock button { border-color:#000; color:#000; }
+.light .clock button span i { color:#000; }

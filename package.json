@@ -1,0 +1,52 @@
+{
+    "name": "hovrly",
+    "productName": "Hovrly",
+    "version": "2.0.0",
+    "description": "Hovrly — simple multi clock",
+    "main": "app/index.js",
+    "scripts": {
+        "start": "electron .",
+        "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=app/static/icon.icns --prune=true --out=builds --ignore=resources",
+        "package-win": "electron-packager . --overwrite --platform=win32 --icon=app/static/icon.ico --prune=true --asar=true --out=builds --ignore=resources --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"World\"",
+        "package-linux": "electron-packager . --overwrite --asar=true --platform=linux --arch=x64 --icon=app/static/icon.png --prune=true --out=builds --ignore=resources",
+        "package-mac-installer": "electron-installer-dmg builds/World-darwin-x64/World.app World --out=builds --overwrite --icon=app/static/icon.icns --icon-size=128 --background=app/static/installer-bg.png",
+        "build": "npm run package-mac && npm run package-mac-installer",
+        "spaces": "app/bin/do-spaces.sh"
+    },
+    "author": "Alexey Tarutin",
+    "private": true,
+    "homepage": "https://github.com/tarutin/hovrly",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tarutin/hovrly.git"
+    },
+    "bugs": {
+        "url": "https://github.com/tarutin/hovrly/issues"
+    },
+    "keywords": [
+        "desktop",
+        "electron",
+        "electron-app",
+        "clock",
+        "multi clock",
+        "hovrly"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "electron": "^1.8.1",
+        "electron-installer-dmg": "^0.2.1",
+        "electron-packager": "^10.1.0",
+        "electron-winstaller": "^2.6.3"
+    },
+    "dependencies": {
+        "auto-launch": "^5.0.3",
+        "electron-dl": "^1.10.0",
+        "electron-positioner": "^3.0.0",
+        "electron-settings": "^3.1.4",
+        "electron-twig": "^1.1.1",
+        "ipc": "0.0.1",
+        "mysql2": "^1.5.1",
+        "npm": "^6.14.8",
+        "request": "^2.83.0"
+    }
+}

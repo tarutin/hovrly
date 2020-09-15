@@ -1,0 +1,7 @@
+node_modules
+builds/World-*
+package-lock.json
+
+.DS_*
+.Trashes
+Thumbs.db
