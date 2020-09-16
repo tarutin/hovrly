@@ -43,7 +43,10 @@ function check(options) {
 
             if(data.version > config.APP_VERSION) {
                 notice.send(`A new version ${data.version} is available!\nClick to download!`, () => {
-                    app.dock.show()
+
+                    if(process.platform == 'darwin') {
+                        app.dock.show()
+                    }
 
                     download(options.win, data.file).then(dl => {
                         notice.send('Successfuly downloaded!')

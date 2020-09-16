@@ -16,10 +16,6 @@ const db = require('./db')
 
 process.on('uncaughtException', error)
 
-if (process.platform == 'darwin') {
-    app.dock.hide()
-}
-
 app.whenReady().then(() => {
     console.log('index init')
 
@@ -35,11 +31,16 @@ app.whenReady().then(() => {
     ipc.on('exit', app.quit)
 
     ipc.on('ready', () => {
-        console.timeEnd('init')
-        
+
+        if(process.platform == 'darwin') {
+            app.dock.hide()
+        }
+
         setTimeout(function() {
             updater.auto({ win: window.getWin() })
         }, config.DELAYED_INIT)
+
+        console.timeEnd('init')
     })
 
 })
