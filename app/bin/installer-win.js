@@ -14,13 +14,13 @@ function getInstallerConfig () {
   const outPath = path.join(rootPath, 'builds')
 
   return Promise.resolve({
-    appDirectory: path.join(outPath, 'World-win32-x64/'),
+    appDirectory: path.join(outPath, 'Hovrly-win32-x64/'),
     authors: 'Alexey Tarutin',
     noMsi: true,
     outputDirectory: path.join(outPath, 'windows-installer'),
     // outputDirectory: outPath,
-    exe: 'World.exe',
-    setupExe: 'WorldInstaller.exe',
+    exe: 'Hovrly.exe',
+    setupExe: 'HovrlyInstaller.exe',
     setupIcon: path.join(rootPath, 'app', 'static', 'icon.ico')
   })
 }

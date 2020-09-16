@@ -20,7 +20,7 @@ if (process.platform == 'darwin') {
     app.dock.hide()
 }
 
-app.once('ready', () => {
+app.whenReady().then(() => {
     console.log('index init')
 
     window.init()
@@ -32,12 +32,16 @@ app.once('ready', () => {
     notice.init()
     db.init()
 
-    // setTimeout(function() {}, config.DELAYED_INIT)
-
     ipc.on('exit', app.quit)
+
     ipc.on('ready', () => {
         console.timeEnd('init')
+        
+        setTimeout(function() {
+            updater.auto({ win: window.getWin() })
+        }, config.DELAYED_INIT)
     })
+
 })
 
 app.on('window-all-closed', () => {

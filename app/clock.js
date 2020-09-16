@@ -8,94 +8,86 @@ const config = require('./config')
 const tray = require('./tray')
 const ipc = electron.ipcMain
 const request = require('request')
-const twig = require('electron-twig')
+const window = require('./window')
+const notice = require('./notice')
 
 var clock = null
 
 function init() {
     console.log('clock init')
 
-    // settings.deleteAll()
-    // console.log(settings.get('clocks'))
+    // settings.unset()
+    if (!settings.hasSync('clocks')) reset()
 
-    if (!settings.has('clocks')) reset()
+    // console.log(settings.getSync('clocks'))
 
-    getClocks()
-    onClockAdd()
-    onClockRemove()
-    onClockTrayToggle()
-}
+    ipc.on('get-clocks', () => {
+        let clocks = settings.getSync('clocks')
+        let win = window.getWin()
+        for (let i in clocks) {
+            win.webContents.send('add-clock', clocks[i])
+        }
 
-function onClockTrayToggle() {
-    ipc.on('clock-toggle', (e, cityName) => {
-        let clocks = settings.get('clocks')
-        clocks.forEach((clock, index) => {
-            if (clock.name.replace(/[^a-z0-9]/gi, '') == cityName.replace(/[^a-z0-9]/gi, '')) {
-                clocks[index].tray = clock.tray ? false : true
+        update()
+        runClock()
+    })
+
+    ipc.on('clock-add', (e, city) => {
+        if (!city) return
+
+        let clocks = settings.getSync('clocks')
+        let issetClock = false
+
+        clocks.forEach(clock => {
+            if (clock.name.replace(/[^a-z0-9]/gi, '') == city.name.replace(/[^a-z0-9]/gi, '')) {
+                issetClock = true
             }
         })
 
-        settings.set('clocks', clocks)
-        update()
+        if (!issetClock) {
+            clocks.push(city)
+            settings.setSync('clocks', clocks)
+            let win = window.getWin()
+            win.webContents.send('add-clock', city)
+        }
     })
-}
 
-function onClockRemove() {
     ipc.on('clock-remove', (e, cityName) => {
-        let clocks = settings.get('clocks')
+        let clocks = settings.getSync('clocks')
         clocks.forEach((clock, index) => {
             if (clock.name.replace(/[^a-z0-9]/gi, '') == cityName.replace(/[^a-z0-9]/gi, '')) {
                 clocks.splice(index, 1)
             }
         })
 
-        settings.set('clocks', clocks)
+        settings.setSync('clocks', clocks)
         update()
-        e.sender.send('app-height-update')
     })
-}
 
-function onClockAdd() {
-    ipc.on('clock-add', (e, city) => {
-        // getCity(city, function(data) {
-            if (!city) return
-
-            let clocks = settings.get('clocks')
-            let issetClock = false
-
-            clocks.forEach(clock => {
-                if (clock.name.replace(/[^a-z0-9]/gi, '') == city.name.replace(/[^a-z0-9]/gi, '')) {
-                    issetClock = true
-                }
-            })
-
-            if (!issetClock) {
-                clocks.push(city)
-                settings.set('clocks', clocks)
-                e.sender.send('clock-added', city)
+    ipc.on('clock-toggle', (e, cityName) => {
+        let clocks = settings.getSync('clocks')
+        clocks.forEach((clock, index) => {
+            if (clock.name.replace(/[^a-z0-9]/gi, '') == cityName.replace(/[^a-z0-9]/gi, '')) {
+                clocks[index].tray = clock.tray ? false : true
             }
-        // })
+        })
+
+        settings.setSync('clocks', clocks)
+        update()
     })
-}
-
-function getClocks() {
-    twig.view.clocks = settings.get('clocks')
-
-    update()
-    runClock()
 }
 
 function runClock() {
     var now = new Date()
-    var timeToNextTick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
+    var tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
     setTimeout(function() {
         update()
         runClock()
-    }, timeToNextTick)
+    }, tick)
 }
 
 function update() {
-    var clocks = settings.get('clocks')
+    var clocks = settings.getSync('clocks')
     var utc = Math.floor(new Date().getTime())
     var title = []
     for (let i in clocks) {
@@ -132,7 +124,7 @@ function update() {
 // }
 
 function reset() {
-    settings.set('clocks', [
+    settings.setSync('clocks', [
         { name: 'Moscow', full: 'Moscow, RU', offset: 3, tray: 0 },
         { name: 'Berlin', full: 'Berlin, DE', offset: 1, tray: 1 },
         { name: 'Phuket', full: 'Phuket', offset: 7, tray: 1 },

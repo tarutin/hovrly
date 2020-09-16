@@ -16,10 +16,7 @@ var autoCheckTimer
 function init() {
     console.log('updater init')
     check({ silent:true, win:window.getWin() })
-    ipcOnCheck()
-}
 
-function ipcOnCheck() {
     ipc.on('check-update', function() {
         check({ win:window.getWin() })
     })

@@ -5,10 +5,11 @@ const config = require('./config')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const ipc = electron.ipcMain
-const twig = require('electron-twig')
+// const twig = require('electron-twig')
 const tray = require('./tray')
 const Positioner = require('electron-positioner')
-const system = electron.systemPreferences
+// const system = electron.systemPreferences
+// const nativeTheme = electron.nativeTheme
 
 var win = null
 var positioner
@@ -29,35 +30,27 @@ function init() {
         movable: false,
         icon: config.DOCK_ICON,
         skipTaskbar: true,
+        webPreferences: {
+            preload: `${__dirname}/preload.js`,
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
     })
 
     positioner = new Positioner(win)
 
-    twig.view = {
-        'config': config,
-        'system': {
-            'isDark': system.isDarkMode(),
-        }
-    }
-
-    win.loadURL(`file://${__dirname}/templates/index.twig`)
+    win.webContents.loadURL(`file://${__dirname}/templates/index.html`)
     win.setVisibleOnAllWorkspaces(true)
 
-    // win.once('ready-to-show', show)
+    win.once('ready-to-show', () => {
+        win.webContents.send('app-height-get')
 
-    ipc.on('app-height', (event, height) => {
-        win.setSize(config.WIN_WIDTH, height)
+        ipc.on('app-height', (event, height) => {
+            win.setSize(config.WIN_WIDTH, height)
+        })
     })
 
     win.on('blur', hide)
-
-    win.on('show', () => {
-        tray.setHighlightMode('always')
-    })
-
-    win.on('hide', () => {
-        tray.setHighlightMode('never')
-    })
 
     win.on('close', (event) => {
         if (app.quitting) {

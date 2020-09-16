@@ -6,7 +6,7 @@ const config = {
     TRAY_ICON_MAC_DARKMODE: `${__dirname}/static/tray-darkmode.png`,
     TRAY_ICON_WIN: `${__dirname}/static/tray-darkmode.png`,
     DOCK_ICON: `${__dirname}/static/icon.ico`,
-    WIN_WIDTH: 370,
+    WIN_WIDTH: 400,
     DELAYED_INIT: 3000,
     UPDATER_CHECK_TIME: 1000 * 60 * 10,
     UPDATER_CHECK_VERSION: 'https://tarutin.github.io/world-clock/update.json',

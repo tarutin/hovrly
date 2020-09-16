@@ -1,10 +1,10 @@
-module.exports = { init }
+module.exports = { init, isAutoOpen }
 
 const path = require('path')
 const electron = require('electron')
 const app = electron.app
 const config = require('./config')
-const twig = require('electron-twig')
+// const twig = require('electron-twig')
 const AutoLaunch = require('auto-launch')
 const ipc = electron.ipcMain
 
@@ -15,24 +15,16 @@ function init() {
 
     let appPath = process.platform === 'darwin' ? app.getPath('exe').replace(/\.app\/Content.*/, '.app') : undefined
     launch = new AutoLaunch({ name:config.APP_NAME, path:appPath, isHidden:true })
-    
-    let isAutoOpen = app.getLoginItemSettings().openAtLogin ? 1 : 0
-    twig.view.settings = {'appAutoLaunch': isAutoOpen}
-    
-    onToggle()
-}
 
-function onToggle() {
     ipc.on('startup', () => {
         launch.isEnabled().then(enabled => {
-            if(!enabled) {
-                twig.view.settings.appAutoLaunch = true
-                launch.enable()
-            }
-            else {
-                twig.view.settings.appAutoLaunch = false
-                launch.disable()
-            }
+            if(!enabled) launch.enable()
+            else launch.disable()
         })
     })
+}
+
+function isAutoOpen()
+{
+    return !!app.getLoginItemSettings().openAtLogin
 }
