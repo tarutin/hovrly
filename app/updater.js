@@ -50,7 +50,7 @@ function check(options) {
 
                     download(options.win, data.file).then(dl => {
                         notice.send('Successfuly downloaded!')
-                        shell.openItem(dl.getSavePath())
+                        shell.openPath(dl.getSavePath())
                         setTimeout(app.quit, 3000)
                     })
                 })
