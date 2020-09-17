@@ -9,7 +9,6 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const autoUpdater = electron.autoUpdater // sign: https://github.com/electron/electron/issues/7476
 
-var autoCheckTimer
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
 
 function init() {
@@ -26,7 +25,6 @@ function init() {
             return
         }
 
-        notice.send('Checking updates...')
         autoUpdater.checkForUpdates()
     })
 
@@ -48,22 +46,22 @@ function init() {
     })
 
     autoUpdater.on('update-available', () => {
-        console.log('update-available')
+        notice.send('New version available. Downloading...')
     })
 
     autoUpdater.on('update-not-available', () => {
-        console.log('update-not-available')
+        notice.send(`${config.APP_VERSION} is the latest version`)
     })
 
     autoUpdater.on('error', message => {
-        console.log(message)
+        if(isDev) console.log(message)
     })
 }
 
 function auto() {
     if(isDev) return
 
-    autoCheckTimer = setInterval(function() {
+    setInterval(() => {
         autoUpdater.checkForUpdates()
     }, config.UPDATER_CHECK_TIME)
 }
