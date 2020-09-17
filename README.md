@@ -1,4 +1,2 @@
-## Hovrly
-
 ## License
 MIT

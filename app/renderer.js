@@ -1,9 +1,6 @@
 const electron = require('electron')
 const remote = electron.remote
 const ipc = electron.ipcRenderer
-const notice = remote.require('./notice')
-const config = remote.require('./config')
-const updater = remote.require('./updater')
 const db = remote.require('./db')
 const $ = selector => document.querySelector(selector)
 const $all = selector => document.querySelectorAll(selector)

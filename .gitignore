@@ -1,5 +1,6 @@
 node_modules
-builds/Hovrly-*
+builds
+electron-builder.yml
 package-lock.json
 
 .DS_*

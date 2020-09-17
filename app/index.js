@@ -37,7 +37,7 @@ app.whenReady().then(() => {
         }
 
         setTimeout(function() {
-            updater.auto({ win: window.getWin() })
+            updater.auto()
         }, config.DELAYED_INIT)
 
         console.timeEnd('init')

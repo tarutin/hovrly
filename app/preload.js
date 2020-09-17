@@ -11,7 +11,7 @@ function init()
 {
     document.title = config.APP_NAME
 
-    $('.ipc-exit').innerText += ' ' + config.APP_NAME
+    $('.ipc-exit').innerHTML += ` ${config.APP_NAME} <small>v${config.APP_VERSION}</small>`
 
     ipc.send('get-clocks')
 

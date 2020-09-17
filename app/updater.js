@@ -6,62 +6,64 @@ const notice = require('./notice')
 const window = require('./window')
 const ipc = electron.ipcMain
 const app = electron.app
-const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
-const request = require('request')
-const download = require('electron-dl').download
+const autoUpdater = electron.autoUpdater // sign: https://github.com/electron/electron/issues/7476
 
 var autoCheckTimer
+var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
 
 function init() {
     console.log('updater init')
-    check({ silent:true, win:window.getWin() })
+
+    autoUpdater.setFeedURL({
+        url: `https://hazel.alexeytarutin.vercel.app/update/${process.platform}/${app.getVersion()}`
+    });
+
 
     ipc.on('check-update', function() {
-        check({ win:window.getWin() })
-    })
-}
-
-function auto(options) {
-    autoCheckTimer = setInterval(function() {
-        check({ silent:true, win:options.win })
-    }, config.UPDATER_CHECK_TIME)
-}
-
-function check(options) {
-    request(config.UPDATER_CHECK_VERSION, function(err, res, data) {
-        if(err) console.log('check update:', err.code)
-
-        if(!res) {
-            if(!options.silent) {
-                notice.send(`Error check new version! Try again later`)
-            }
+        if(isDev) {
+            notice.send('Updates unavailable on development mode')
             return
         }
-        else {
-            data = JSON.parse(data)
 
-            if(data.version > config.APP_VERSION) {
-                notice.send(`A new version ${data.version} is available!\nClick to download!`, () => {
-
-                    if(process.platform == 'darwin') {
-                        app.dock.show()
-                    }
-
-                    download(options.win, data.file).then(dl => {
-                        notice.send('Successfuly downloaded!')
-                        shell.openPath(dl.getSavePath())
-                        setTimeout(app.quit, 3000)
-                    })
-                })
-
-                clearInterval(autoCheckTimer)
-            }
-            else {
-                if(!options.silent) {
-                    notice.send(`${config.APP_VERSION} is the latest version.`)
-                }
-            }
-        }
+        notice.send('Checking updates...')
+        autoUpdater.checkForUpdates()
     })
+
+
+    autoUpdater.on('update-downloaded', (event, notes, name, date, url) => {
+        if(process.platform == 'darwin') {
+            app.dock.show()
+            app.dock.bounce()
+            app.dock.setBadge('•')
+        }
+
+        notice.send(`Click to install and restart a new version`, () => {
+            autoUpdater.quitAndInstall()
+            setTimeout(app.quit, 2000)
+        })
+    })
+
+    autoUpdater.on('checking-for-update', () => {
+    })
+
+    autoUpdater.on('update-available', () => {
+        console.log('update-available')
+    })
+
+    autoUpdater.on('update-not-available', () => {
+        console.log('update-not-available')
+    })
+
+    autoUpdater.on('error', message => {
+        console.log(message)
+    })
+}
+
+function auto() {
+    if(isDev) return
+
+    autoCheckTimer = setInterval(function() {
+        autoUpdater.checkForUpdates()
+    }, config.UPDATER_CHECK_TIME)
 }

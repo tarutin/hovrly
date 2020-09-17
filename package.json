@@ -1,17 +1,15 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.0.3",
+    "version": "2.0.7",
     "description": "Hovrly — simple multi clock",
     "main": "app/index.js",
     "scripts": {
-        "start": "electron .",
-        "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=app/static/icon.icns --prune=true --out=builds --ignore=resources",
-        "package-win": "electron-packager . --overwrite --platform=win32 --icon=app/static/icon.ico --prune=true --asar=true --out=builds --ignore=resources --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Hovrly\"",
-        "package-linux": "electron-packager . --overwrite --asar=true --platform=linux --arch=x64 --icon=app/static/icon.png --prune=true --out=builds --ignore=resources",
-        "package-mac-installer": "electron-installer-dmg builds/Hovrly-darwin-x64/Hovrly.app Hovrly --out=builds --overwrite --icon=app/static/icon.icns --icon-size=128 --background=app/static/installer-bg.png",
-        "build": "npm run package-mac && npm run package-mac-installer",
-        "spaces": "app/bin/do-spaces.sh"
+        "start": "DEV=true electron .",
+        "build": "electron-builder build --mac --publish never",
+        "publish": "electron-builder build --mac --publish always",
+        "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/Electron.app",
+        "postinstall": "npm run sign-dev-electron-app"
     },
     "author": "Alexey Tarutin",
     "private": true,
@@ -36,7 +34,8 @@
         "electron": "^10.1.2",
         "electron-installer-dmg": "^3.0.0",
         "electron-packager": "^15.1.0",
-        "electron-winstaller": "^4.0.1"
+        "electron-winstaller": "^4.0.1",
+        "electron-builder": "^22.8.1"
     },
     "dependencies": {
         "auto-launch": "^5.0.5",
