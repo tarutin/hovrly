@@ -10,7 +10,6 @@ const BrowserWindow = electron.BrowserWindow
 const autoUpdater = electron.autoUpdater // sign: https://github.com/electron/electron/issues/7476
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
-var silent = true
 
 function init() {
     console.log('updater init')
@@ -18,7 +17,7 @@ function init() {
     var win = window.getWin()
 
     autoUpdater.setFeedURL({
-        url: `https://hazel.alexeytarutin.vercel.app/update/${process.platform}/${app.getVersion()}`
+        url: `${config.UPDATER_CHECK_URL}/update/${process.platform}/${app.getVersion()}`
     });
 
 
@@ -28,28 +27,32 @@ function init() {
             return
         }
 
-        silent = false
         autoUpdater.checkForUpdates()
     })
 
     autoUpdater.on('update-downloaded', (event, notes, name, date, url) => {
-        if(process.platform == 'darwin') {
+        if(process.platform == 'darwin' && !win.isVisible()) {
             app.dock.show()
             app.dock.bounce()
             app.dock.setBadge('•')
         }
 
-        if(!win.isVisible()) notice.send(`Update ready to install`)
+        if(!win.isVisible()) {
+            notice.send(`Update ready to install`)
+        }
+
         win.webContents.send('update-finish', 'downloaded')
 
         ipc.on('update-install', function() {
             autoUpdater.quitAndInstall()
-            setTimeout(app.quit, 2000)
+            setTimeout(app.quit, 1000)
         })
     })
 
     autoUpdater.on('checking-for-update', () => {
-        win.webContents.send('update-finish', 'checking')
+        if(win.isVisible()) {
+            win.webContents.send('update-finish', 'checking')
+        }
     })
 
     autoUpdater.on('update-available', () => {
@@ -57,7 +60,7 @@ function init() {
     })
 
     autoUpdater.on('update-not-available', () => {
-        if(!silent) {
+        if(win.isVisible()) {
             win.webContents.send('update-finish', 'not-available')
         }
     })
@@ -73,7 +76,6 @@ function auto() {
     if(isDev) return
 
     setInterval(() => {
-        silent = true
         autoUpdater.checkForUpdates()
     }, config.UPDATER_CHECK_TIME)
 }

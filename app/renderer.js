@@ -30,10 +30,7 @@ function init()
 
 function update()
 {
-    var chekingTimeout;
-
     $('.update').addEventListener('click', () => {
-        clearTimeout(chekingTimeout)
         if($('.update').classList.contains('install')) return
 
         $('.update').classList.add('loading')
@@ -42,32 +39,35 @@ function update()
     })
 
     ipc.on('update-finish', (e, result) => {
+        if($('.update').classList.contains('install')) return
+
         if(result == 'dev-mode') {
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'Not working on Development';
+            $('.update-message').innerText = 'Not working on Development'
         }
-        else if(result == 'downloaded') {
+
+        if(result == 'downloaded') {
             $('.update').classList.add('install')
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'Install Update & Restart';
+            $('.update-message').innerText = 'Install Update & Restart'
 
             $('.update.install').addEventListener('click', () => {
                 $('.update').classList.add('loading')
                 ipc.send('update-install')
             })
         }
-        else if(result == 'available') {
-            $('.update-message').innerHTML = '<b>New version! Downloading...</b>';
-        }
-        else if(result == 'not-available') {
-            $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'You have latest version';
+
+        if(result == 'available') {
+            $('.update-message').innerHTML = '<b>New version! Downloading...</b>'
         }
 
-        if(result != 'available' && result != 'downloaded') {
-            chekingTimeout = setTimeout(() => {
+        if(result == 'not-available') {
+            $('.update').classList.remove('loading')
+            $('.update-message').innerText = 'You have latest version'
+
+            setTimeout(() => {
                 $('.update-message').innerText = 'Check for Update'
-            }, 5000)
+            }, 3000)
         }
     })
 }
