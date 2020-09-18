@@ -17,7 +17,7 @@ function init() {
     win = new BrowserWindow({
         width: config.WIN_WIDTH,
         height: 400,
-        maxHeight: 500,
+        maxHeight: 670,
         frame: false,
         transparent: true,
         titleBarStyle: 'default',

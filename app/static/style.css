@@ -10,8 +10,8 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .app section { border-bottom:1px solid rgba(255, 255, 255, .1); }
 .app section:last-of-type { border-bottom:none; }
 .search { position:relative; background:#0C0F12; cursor:text; }
-.search input { position:relative; z-index:10; width:100%; cursor:text; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 25px; }
-.search label { position:absolute; top:-2px; left:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:400; font-size:13px; }
+.search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 25px; }
+.search label { position:absolute; z-index:9; top:-2px; right:0; z-index:9; text-align:right; display:block; width:50%; opacity:.5; padding:10px 25px; font-weight:400; font-size:13px; }
 .clock { padding:0px 15px; background:#0C0F12; border:1px solid transparent; }
 .clock button { display:block; position:relative; font-weight:400; border:none; padding:5px; margin:10px 5px; background:transparent; font-size:13px; opacity:.3; }
 .clock button:hover { opacity:.5; }
