@@ -10,6 +10,7 @@ const BrowserWindow = electron.BrowserWindow
 const autoUpdater = electron.autoUpdater // sign: https://github.com/electron/electron/issues/7476
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
+var silent = true
 
 function init() {
     console.log('updater init')
@@ -25,6 +26,7 @@ function init() {
             return
         }
 
+        silent = false
         autoUpdater.checkForUpdates()
     })
 
@@ -36,6 +38,8 @@ function init() {
             app.dock.setBadge('•')
         }
 
+        // TODO:
+        // no callback. only send notification and change button
         notice.send(`Click to install and restart a new version`, () => {
             autoUpdater.quitAndInstall()
             setTimeout(app.quit, 2000)
@@ -46,15 +50,21 @@ function init() {
     })
 
     autoUpdater.on('update-available', () => {
-        notice.send('New version available. Downloading...')
+        if(!silent) {
+            notice.send('New version available. Downloading...')
+        }
     })
 
     autoUpdater.on('update-not-available', () => {
-        notice.send(`${config.APP_VERSION} is the latest version`)
+        if(!silent) {
+            notice.send(`${config.APP_VERSION} is the latest version`)
+        }
     })
 
     autoUpdater.on('error', message => {
-        if(isDev) console.log(message)
+        if(isDev) {
+            console.log(message)
+        }
     })
 }
 
@@ -62,6 +72,7 @@ function auto() {
     if(isDev) return
 
     setInterval(() => {
+        silent = true
         autoUpdater.checkForUpdates()
     }, config.UPDATER_CHECK_TIME)
 }

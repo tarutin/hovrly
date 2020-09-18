@@ -14,6 +14,8 @@ const notice = require('./notice')
 const updater = require('./updater')
 const db = require('./db')
 
+var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
+
 process.on('uncaughtException', error)
 
 app.whenReady().then(() => {
@@ -59,7 +61,8 @@ app.on('before-quit', () => {
 
 function error(error) {
     console.error(error)
+    if(!isDev) return
 
-    if (typeof error == 'object') notice.send('Error: ' + error.message)
+    if(typeof error == 'object') notice.send('Error: ' + error.message)
     else notice.send('Error: ' + error)
 }
