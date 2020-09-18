@@ -5,11 +5,8 @@ const config = require('./config')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const ipc = electron.ipcMain
-// const twig = require('electron-twig')
 const tray = require('./tray')
 const Positioner = require('electron-positioner')
-// const system = electron.systemPreferences
-// const nativeTheme = electron.nativeTheme
 
 var win = null
 var positioner
@@ -68,7 +65,7 @@ function getWin() {
 
 function show() {
     let position = positioner.calculate('trayLeft', tray.getBounds())
-    win.setPosition(position.x, position.y, false)
+    win.setPosition(position.x - 20, position.y + 10, false)
     win.show()
 }
 

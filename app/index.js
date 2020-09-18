@@ -5,6 +5,7 @@ const path = require('path')
 const electron = require('electron')
 const app = electron.app
 const ipc = electron.ipcMain
+const shell = electron.shell
 const tray = require('./tray')
 const menu = require('./menu')
 const window = require('./window')
@@ -30,10 +31,7 @@ app.whenReady().then(() => {
     notice.init()
     db.init()
 
-    ipc.on('exit', app.quit)
-
     ipc.on('ready', () => {
-
         if(process.platform == 'darwin') {
             app.dock.hide()
         }
@@ -43,6 +41,18 @@ app.whenReady().then(() => {
         }, config.DELAYED_INIT)
 
         console.timeEnd('init')
+    })
+
+    ipc.on('exit', app.quit)
+
+    ipc.on('about', () => {
+        window.hide()
+        shell.openExternal(config.LINK_ABOUT)
+    })
+
+    ipc.on('donate', () => {
+        window.hide()
+        shell.openExternal(config.LINK_DONATE)
     })
 
 })

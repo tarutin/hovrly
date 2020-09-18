@@ -1,4 +1,4 @@
-module.exports = { init }
+module.exports = { init, formatTime, isCompactView, isTwentyFourHour }
 
 const path = require('path')
 const electron = require('electron')
@@ -16,10 +16,30 @@ var clock = null
 function init() {
     console.log('clock init')
 
-    // settings.unset()
-    if (!settings.hasSync('clocks')) reset()
+    // settings.unsetSync()
+    // console.log( settings.getSync() )
 
-    // console.log(settings.getSync('clocks'))
+    if(!settings.hasSync('clocks')) {
+        resetClocks()
+    }
+
+    if(!settings.hasSync('twentyfourhour')) {
+        settings.setSync('twentyfourhour', 'on')
+    }
+
+    if(!settings.hasSync('compact')) {
+        settings.setSync('compact', 'off')
+    }
+
+    ipc.on('compact', () => {
+        settings.setSync('compact', isCompactView() == 'on' ? 'off' : 'on')
+        update()
+    })
+
+    ipc.on('twentyfourhour', () => {
+        settings.setSync('twentyfourhour', isTwentyFourHour() == 'off' ? 'on' : 'off')
+        update()
+    })
 
     ipc.on('get-clocks', () => {
         let clocks = settings.getSync('clocks')
@@ -77,6 +97,29 @@ function init() {
     })
 }
 
+function isTwentyFourHour() {
+    return settings.getSync('twentyfourhour')
+}
+
+function isCompactView() {
+    return settings.getSync('compact')
+}
+
+function parseClockName(name) {
+    if(isCompactView() == 'on') {
+        let isDoubleName = (name.split(' ').length - 1) > 0 ? true : false
+
+        if(isDoubleName) {
+            name = name.match(/\b([A-Z])/g).join('')
+        }
+        else {
+            name = name.substring(0, 3).toUpperCase()
+        }
+    }
+
+    return name
+}
+
 function runClock() {
     var now = new Date()
     var tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
@@ -90,12 +133,14 @@ function update() {
     var clocks = settings.getSync('clocks')
     var utc = Math.floor(new Date().getTime())
     var title = []
+
     for (let i in clocks) {
         if (clocks[i].tray) {
             let utc_offset = utc + clocks[i].offset * 3600000
-            title.push(clocks[i].name + ' ' + formatTime(utc_offset))
+            title.push(parseClockName(clocks[i].name) + ' ' + formatTime(utc_offset))
         }
     }
+
     title = title.length ? ' ' + title.join('   ') + ' ' : title.join('   ')
     tray.setTitle(title)
 }
@@ -123,19 +168,30 @@ function update() {
 //     })
 // }
 
-function reset() {
+function resetClocks() {
     settings.setSync('clocks', [
         { name: 'Moscow', full: 'Moscow, RU', offset: 3, tray: 0 },
         { name: 'Berlin', full: 'Berlin, DE', offset: 1, tray: 1 },
-        { name: 'Phuket', full: 'Phuket', offset: 7, tray: 1 },
+        { name: 'New York', full: 'New York, US', offset: -5, tray: 1 },
     ])
 }
 
 function formatTime(ts) {
-    var date = new Date(ts)
-    var hours = date.getUTCHours()
-    var minutes = '0' + date.getUTCMinutes()
-    var seconds = '0' + date.getUTCSeconds()
+    let date = new Date(ts)
+    let hours = date.getUTCHours()
+    let minutes = date.getUTCMinutes()
 
-    return hours + ':' + minutes.substr(-2) // + ':' + seconds.substr(-2)
+    if(isTwentyFourHour() == 'off') {
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+    else {
+        // let seconds = '0' + date.getUTCSeconds()
+        if(hours < 10) hours = '0'+hours
+
+        return hours + ':' + minutes // + ':' + seconds.substr(-2)
+    }
 }

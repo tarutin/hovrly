@@ -1,23 +1,19 @@
 const $ = selector => document.querySelector(selector)
+const $all = selector => document.querySelectorAll(selector)
 const electron = require('electron')
 const remote = electron.remote
 const ipc = electron.ipcRenderer
 const config = remote.require('./config')
-const notice = remote.require('./notice')
-const launch = remote.require('./launch')
-const nativeTheme = remote.nativeTheme
 
 function init()
 {
     document.title = config.APP_NAME
 
-    $('.ipc-exit').innerHTML += ` ${config.APP_NAME} <small>v${config.APP_VERSION}</small>`
-
     ipc.send('get-clocks')
 
-    $('.app').classList.add(nativeTheme.shouldUseDarkColors ? 'dark' : 'light')
+    $('.update').innerHTML += ` <small class='version'>v${config.APP_VERSION}</small>`
 
-    $('.ipc-startup').classList.add(launch.isAutoOpen() ? 'active' : '')
+    $all('.app-name').forEach(item => { item.innerText = config.APP_NAME })
 }
 
 window.addEventListener('DOMContentLoaded', init)

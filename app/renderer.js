@@ -1,7 +1,11 @@
 const electron = require('electron')
 const remote = electron.remote
 const ipc = electron.ipcRenderer
+const config = remote.require('./config')
 const db = remote.require('./db')
+const clock = remote.require('./clock')
+const launch = remote.require('./launch')
+const nativeTheme = remote.nativeTheme
 const $ = selector => document.querySelector(selector)
 const $all = selector => document.querySelectorAll(selector)
 
@@ -9,53 +13,100 @@ function init()
 {
     ipc.on('app-height-get', updateAppHeight)
 
-    updateTime()
-    runClock()
+    theme()
+    clocks()
+    search()
+    quit()
+    update()
+    startup()
+    twentyforhour()
+    compact()
+    about()
+    donate()
 
-    $('.ipc-exit').addEventListener('click', () => {
-        ipc.send('exit')
+    ipc.send('ready')
+}
+
+
+function theme()
+{
+    setTimeout(() => {
+        $('.app').classList.add(nativeTheme.shouldUseDarkColors ? 'dark' : 'light')
+    }, 1)
+
+    nativeTheme.on('updated', () => {
+        $('.app').classList.remove('dark', 'light')
+        $('.app').classList.add(nativeTheme.shouldUseDarkColors ? 'dark' : 'light')
     })
+}
 
-    $('.ipc-update').addEventListener('click', () => {
-        ipc.send('check-update')
+function twentyforhour()
+{
+    setTimeout(function() {
+        $('.twentyfourhour').classList.add(clock.isTwentyFourHour() == 'on' ? 'active' : '')
+    }, 1)
+
+    $('.twentyfourhour').addEventListener('click', e => {
+        e.target.classList.toggle('active')
+        ipc.send('twentyfourhour')
+        updateTime()
     })
+}
 
-    $('.ipc-startup').addEventListener('click', e => {
+function compact()
+{
+    setTimeout(function() {
+        $('.compact').classList.add(clock.isCompactView() == 'on' ? 'active' : '')
+    }, 1)
+
+    $('.compact').addEventListener('click', e => {
+        e.target.classList.toggle('active')
+        ipc.send('compact')
+    })
+}
+
+function donate()
+{
+    $('.support').addEventListener('click', e => {
+        ipc.send('donate')
+    })
+}
+
+function about()
+{
+    $('.about').addEventListener('click', e => {
+        ipc.send('about')
+    })
+}
+
+function startup()
+{
+    setTimeout(function() {
+        $('.startup').classList.add(launch.isAutoOpen() ? 'active' : '')
+    }, 1)
+
+    $('.startup').addEventListener('click', e => {
         e.target.classList.toggle('active')
         ipc.send('startup')
     })
+}
 
-    ipc.on('add-clock', (e, clock) => {
-
-        let button = document.createElement('button')
-
-        button.classList.add(clock.tray ? 'active' : null)
-
-        button.innerHTML = `
-            ${clock.full}
-            <time data-offset='${clock.offset}'></time>
-            <span class='delete'><i class='fa fa-fw fa-times-circle fa-fw'></i></span>
-        `
-        button.setAttribute('data-name', clock.name)
-
-        button.addEventListener('click', e => {
-            e.stopPropagation()
-            e.target.closest('button').classList.toggle('active')
-            ipc.send('clock-toggle', e.target.closest('button').getAttribute('data-name'))
-        })
-
-        button.querySelector('.delete').addEventListener('click', e => {
-            e.stopPropagation()
-            ipc.send('clock-remove', button.getAttribute('data-name'))
-            button.parentNode.removeChild(button)
-            updateAppHeight()
-        })
-
-        $('.clock').appendChild(button)
-        updateTime()
-        updateAppHeight()
+function update()
+{
+    $('.update').addEventListener('click', () => {
+        ipc.send('check-update')
     })
+}
 
+function quit()
+{
+    $('.exit').addEventListener('click', () => {
+        ipc.send('exit')
+    })
+}
+
+function search()
+{
     var newclock = null
     $('.search input').addEventListener('keyup', e => {
         let keycode = e.keyCode ? e.keyCode : e.which
@@ -85,19 +136,59 @@ function init()
 
                 db.find(query, city => {
                     $('.search label').innerText = !city ? 'Not found' : city.name + ', ' + city.code
-                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, offset: city.offset, tray: 0 } : null
+                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, offset: Number(city.offset), tray: 0 } : null
                 })
             }
         }
     })
-
-    ipc.send('ready')
 }
 
-function updateAppHeight()
+function clocks()
 {
-    let appHeight = parseFloat(getComputedStyle($('.app'), null).height.replace('px', ''))
-    ipc.send('app-height', appHeight)
+    updateTime()
+    runClock()
+
+    ipc.on('add-clock', (e, clock) => {
+
+        let button = document.createElement('button')
+
+        button.classList.add(clock.tray ? 'active' : null)
+
+        button.innerHTML = `
+            <time data-offset='${clock.offset}'></time>
+            ${clock.full}
+            <span class='delete'><i class='fa fa-fw fa-times-circle fa-fw'></i></span>
+        `
+        button.setAttribute('data-name', clock.name)
+
+        button.addEventListener('click', e => {
+            e.stopPropagation()
+            e.target.closest('button').classList.toggle('active')
+            ipc.send('clock-toggle', e.target.closest('button').getAttribute('data-name'))
+        })
+
+        button.querySelector('.delete').addEventListener('click', e => {
+            e.stopPropagation()
+            ipc.send('clock-remove', button.getAttribute('data-name'))
+            button.parentNode.removeChild(button)
+            updateAppHeight()
+        })
+
+        $('.clock').appendChild(button)
+
+        updateTime()
+        updateAppHeight()
+    })
+
+    function runClock() {
+        let now = new Date()
+        let tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
+
+        setTimeout(function() {
+            updateTime()
+            runClock()
+        }, tick)
+    }
 }
 
 function updateTime() {
@@ -106,27 +197,14 @@ function updateTime() {
     $all('.clock button').forEach(item => {
         let time = item.querySelector('time')
         let utc_offset = utc + time.getAttribute('data-offset') * 3600000
-        time.innerText = formatTime(utc_offset)
+        time.innerText = clock.formatTime(utc_offset)
     })
 }
 
-function runClock() {
-    let now = new Date()
-    let tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
-
-    setTimeout(function() {
-        updateTime()
-        runClock()
-    }, tick)
-}
-
-function formatTime(ts) {
-    let date = new Date(ts)
-    let hours = date.getUTCHours()
-    let minutes = '0' + date.getUTCMinutes()
-    let seconds = '0' + date.getUTCSeconds()
-
-    return hours + ':' + minutes.substr(-2) // + ':' + seconds.substr(-2)
+function updateAppHeight()
+{
+    let appHeight = parseFloat(getComputedStyle($('.app'), null).height.replace('px', ''))
+    ipc.send('app-height', appHeight)
 }
 
 window.addEventListener('DOMContentLoaded', init)

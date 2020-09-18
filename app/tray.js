@@ -10,7 +10,6 @@ const Menu = electron.Menu
 const Tray = electron.Tray
 const nativeImage = electron.nativeImage
 const nativeTheme = electron.nativeTheme
-// const system = electron.systemPreferences
 const window = require('./window')
 
 var tray = null
@@ -18,13 +17,25 @@ var tray = null
 function init() {
     console.log('tray init')
 
-    var icon = platform == 'win32' ? config.TRAY_ICON_WIN : (nativeTheme.shouldUseDarkColors ? config.TRAY_ICON_MAC_DARKMODE : config.TRAY_ICON_MAC)
-    tray = new Tray(nativeImage.createFromPath(icon))
+    tray = new Tray(nativeImage.createFromPath(getIcon()))
+
+    nativeTheme.on('updated', () => {
+        tray.setImage(getIcon())
+    })
 
     tray.on('click', window.toggle)
     tray.on('double-click', window.toggle)
 
     tray.setToolTip(config.APP_NAME)
+}
+
+function getIcon()
+{
+    return platform == 'win32'
+        ? config.TRAY_ICON_WIN
+        : (nativeTheme.shouldUseDarkColors
+            ? config.TRAY_ICON_MAC_DARKMODE
+            : config.TRAY_ICON_MAC)
 }
 
 function setTitle(title) {

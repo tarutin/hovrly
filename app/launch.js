@@ -4,7 +4,6 @@ const path = require('path')
 const electron = require('electron')
 const app = electron.app
 const config = require('./config')
-// const twig = require('electron-twig')
 const AutoLaunch = require('auto-launch')
 const ipc = electron.ipcMain
 

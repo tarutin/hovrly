@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset='utf-8'/>
-        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
         <title>APP</title>
+        <meta charset='utf-8'/>
+        <meta http-equiv='Content-Security-Policy' content="script-src 'self' 'unsafe-inline';" />
         <link rel='stylesheet' href='../static/style.css'/>
     </head>
     <body class='app'>
@@ -15,14 +14,20 @@
         <section class='clock'>
         </section>
         <section class='settings'>
-            <button class='ipc-startup'>Open at Login</button>
-            <button class='ipc-update'>Check for Update</button>
+            <button class='btn twentyfourhour'>24 Hours</button>
+            <button class='btn compact'>Compact View</button>
+            <button class='btn startup'>Open at Login</button>
+            <button class='btn update'>Check for Update</button>
+        </section>
+        <section class='about'>
+            <button class='btn about'>About <span class='app-name'></span></button>
+            <button class='btn support'>Support Us</button>
         </section>
         <section class='exit'>
-            <button class='ipc-exit'>Quit</button>
+            <button class='btn exit'>Quit <span class='app-name'></span></button>
         </section>
 
-        <script>require('../renderer.js')</script>
+        <script>require('../renderer')</script>
         <style> ::selection { background:blue; } </style>
     </body>
 </html>

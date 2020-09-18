@@ -1,37 +1,40 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
-* { margin:0; padding:0; outline:none; color:#fff; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
+* { margin:0; padding:0; outline:none; color:#fff; font-weight:400; font-family:-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Ubuntu, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
 *, *:before, *:after { box-sizing:inherit; -webkit-box-sizing:inherit; }
-html, body { background:#373737; color:#fff; font-size:15px; line-height:1.5; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
-button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance:button; cursor:pointer; }
+html, body { font-size:13px; line-height:100%; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+button, html input[type='button'], input[type='reset'], input[type='submit'] { -webkit-appearance:button; cursor:pointer; }
 
 .titlebar { -webkit-app-region:drag; -webkit-user-select:none; text-align:center; font-size:80%; font-weight:600; padding:10px; opacity:.7; border-bottom:1px solid #222; }
-.app { }
-.app section { border-bottom:2px solid #5B5B5B; }
+.app { background:#1B1E21; }
+.app section { border-bottom:1px solid rgba(255, 255, 255, .1); }
 .app section:last-of-type { border-bottom:none; }
-.search { position:relative; }
-.search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:500; font-size:15px; color:#fff; border:none; padding:10px 25px; }
-.search label { position:absolute; top:-2px; left:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:500; font-size:15px; }
-.exit button, .settings button { font-weight:500; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 25px; font-size:15px; }
-.exit button:hover, .settings button:hover { background:#5B5B5B; }
-.clock { padding:10px 20px; }
-.clock button { position:relative; font-weight:500; border:1px solid #fff; border-radius:4px; padding:5px 10px; margin:5px; background:transparent; font-size:15px; opacity:.2; }
+.search { position:relative; background:#0C0F12; cursor:text; }
+.search input { position:relative; z-index:10; width:100%; cursor:text; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 25px; }
+.search label { position:absolute; top:-2px; left:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:400; font-size:13px; }
+.clock { padding:0px 15px; background:#0C0F12; border:1px solid transparent; }
+.clock button { display:block; position:relative; font-weight:400; border:none; padding:5px; margin:10px 5px; background:transparent; font-size:13px; opacity:.3; }
 .clock button:hover { opacity:.5; }
 .clock button.active { opacity:1; }
-.clock button time { margin-left:5px; }
-.clock button span { display:none; position:absolute; top:-16px; right:-12px; }
-.clock button:hover span { display:inline-block; }
-.clock button span i { color:#fff; padding:5px; font-size:15px; }
-.settings button.active:before { font-family:'FontAwesome'; content:'\f00c'; margin-left:-18px; padding-right:3px; display:inline-block; }
+.clock button time { margin-right:5px; }
+.clock button .delete { display:none; margin-left:5px; padding:0 3px; }
+.clock button:hover .delete { display:inline-block; }
+.clock button .delete i { color:#fff; font-size:13px; }
+.settings button.active:before { font-family:'FontAwesome'; content:'\f00c'; margin-left:-18px; padding-right:5px; display:inline-block; }
+.update .version { opacity:.3; font-size:10px; position:relative; top:2px; float:right; }
 
-a, form input[type=submit], button { transition:all 0.1s linear 0s; }
+.btn { font-weight:400; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 25px; font-size:13px; }
+.btn:hover { background:#5B5B5B; }
+a, form input[type='submit'], button { transition:all 0.1s linear 0s; }
 
 .light * { color:#000; }
 .light { background:#fff; }
 .light section { border-color:#f7f7f7; }
+.light .search { background:#fff; }
 .light .search input { color:#000; }
 .light .search label { color:#000; }
-.light .exit button, .light .settings button { color:#000; }
-.light .exit button:hover, .light .settings button:hover { background:#f7f7f7; color:#000; }
+.light .btn { color:#000; }
+.light .btn:hover { background:#f7f7f7; color:#000; }
+.light .clock { background:#fff; }
 .light .clock button { border-color:#000; color:#000; }
-.light .clock button span i { color:#000; }
+.light .clock button .delete i { color:#000; }
