@@ -15,21 +15,22 @@ var silent = true
 function init() {
     console.log('updater init')
 
+    var win = window.getWin()
+
     autoUpdater.setFeedURL({
         url: `https://hazel.alexeytarutin.vercel.app/update/${process.platform}/${app.getVersion()}`
     });
 
 
-    ipc.on('check-update', function() {
+    ipc.on('update-check', function() {
         if(isDev) {
-            notice.send('Updates unavailable on development mode')
+            win.webContents.send('update-finish', 'dev-mode')
             return
         }
 
         silent = false
         autoUpdater.checkForUpdates()
     })
-
 
     autoUpdater.on('update-downloaded', (event, notes, name, date, url) => {
         if(process.platform == 'darwin') {
@@ -38,26 +39,26 @@ function init() {
             app.dock.setBadge('•')
         }
 
-        // TODO:
-        // no callback. only send notification and change button
-        notice.send(`Click to install and restart a new version`, () => {
+        if(!win.isVisible()) notice.send(`Update ready to install`)
+        win.webContents.send('update-finish', 'downloaded')
+
+        ipc.on('update-install', function() {
             autoUpdater.quitAndInstall()
             setTimeout(app.quit, 2000)
         })
     })
 
     autoUpdater.on('checking-for-update', () => {
+        win.webContents.send('update-finish', 'checking')
     })
 
     autoUpdater.on('update-available', () => {
-        if(!silent) {
-            notice.send('New version available. Downloading...')
-        }
+        win.webContents.send('update-finish', 'available')
     })
 
     autoUpdater.on('update-not-available', () => {
         if(!silent) {
-            notice.send(`${config.APP_VERSION} is the latest version`)
+            win.webContents.send('update-finish', 'not-available')
         }
     })
 

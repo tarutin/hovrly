@@ -11,7 +11,7 @@ function init()
 
     ipc.send('get-clocks')
 
-    $('.update').innerHTML += ` <small class='version'>v${config.APP_VERSION}</small>`
+    $('.update .version').innerHTML += `v${config.APP_VERSION}`
 
     $all('.app-name').forEach(item => { item.innerText = config.APP_NAME })
 }

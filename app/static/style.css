@@ -21,11 +21,16 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .clock button:hover .delete { display:inline-block; }
 .clock button .delete i { color:#fff; font-size:13px; }
 .settings button.active:before { font-family:'FontAwesome'; content:'\f00c'; margin-left:-18px; padding-right:5px; display:inline-block; }
+.update.loading:before { animation: spinner 1.2s linear infinite; font-family:'FontAwesome'; content:'\f110'; margin-left:-18px; margin-right:5px; display:inline-block; }
+.update.install { background-color:#2662C1; color:#fff; }
+.update.install:hover { background-color:#3b74cf; }
+.update.install .version { opacity:.7; }
 .update .version { opacity:.3; font-size:10px; position:relative; top:2px; float:right; }
 
 .btn { font-weight:400; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 25px; font-size:13px; }
 .btn:hover { background:#5B5B5B; }
 a, form input[type='submit'], button { transition:all 0.1s linear 0s; }
+b, strong { font-weight:600; }
 
 .light * { color:#000; }
 .light { background:#fff; }
@@ -38,3 +43,8 @@ a, form input[type='submit'], button { transition:all 0.1s linear 0s; }
 .light .clock { background:#fff; }
 .light .clock button { border-color:#000; color:#000; }
 .light .clock button .delete i { color:#000; }
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

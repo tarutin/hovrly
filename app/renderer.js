@@ -28,6 +28,50 @@ function init()
 }
 
 
+function update()
+{
+    var chekingTimeout;
+
+    $('.update').addEventListener('click', () => {
+        clearTimeout(chekingTimeout)
+        if($('.update').classList.contains('install')) return
+
+        $('.update').classList.add('loading')
+        $('.update-message').innerText = 'Checking...'
+        ipc.send('update-check')
+    })
+
+    ipc.on('update-finish', (e, result) => {
+        if(result == 'dev-mode') {
+            $('.update').classList.remove('loading')
+            $('.update-message').innerText = 'Not working on Development';
+        }
+        else if(result == 'downloaded') {
+            $('.update').classList.add('install')
+            $('.update').classList.remove('loading')
+            $('.update-message').innerText = 'Install Update & Restart';
+
+            $('.update.install').addEventListener('click', () => {
+                $('.update').classList.add('loading')
+                ipc.send('update-install')
+            })
+        }
+        else if(result == 'available') {
+            $('.update-message').innerHTML = '<b>New version! Downloading...</b>';
+        }
+        else if(result == 'not-available') {
+            $('.update').classList.remove('loading')
+            $('.update-message').innerText = 'You have latest version';
+        }
+
+        if(result != 'available' && result != 'downloaded') {
+            chekingTimeout = setTimeout(() => {
+                $('.update-message').innerText = 'Check for Update'
+            }, 5000)
+        }
+    })
+}
+
 function theme()
 {
     setTimeout(() => {
@@ -88,13 +132,6 @@ function startup()
     $('.startup').addEventListener('click', e => {
         e.target.classList.toggle('active')
         ipc.send('startup')
-    })
-}
-
-function update()
-{
-    $('.update').addEventListener('click', () => {
-        ipc.send('check-update')
     })
 }
 
