@@ -137,7 +137,8 @@ function update() {
     for (let i in clocks) {
         if (clocks[i].tray) {
             let utc_offset = utc + clocks[i].offset * 3600000
-            title.push(parseClockName(clocks[i].name) + ' ' + formatTime(utc_offset))
+            let format = formatTime(utc_offset)
+            title.push(parseClockName(clocks[i].name) + ' ' + format.time)
         }
     }
 
@@ -180,19 +181,26 @@ function formatTime(ts) {
     let date = new Date(ts)
     let hours = date.getUTCHours()
     let minutes = date.getUTCMinutes()
+    let ampm = hours >= 12 ? 'PM' : 'AM'
+    let morning = hours >= 7 && hours <= 20 ? 'morning' : 'evening'
 
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0'+minutes : minutes
 
     if(isTwentyFourHour() == 'off') {
-        var ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        return hours + ':' + minutes + ' ' + ampm;
+        hours = hours % 12
+        hours = hours ? hours : 12
+
+        return {
+            time: `${hours}:${minutes} ${ampm}`,
+            morning: morning
+        }
     }
     else {
-        // let seconds = '0' + date.getUTCSeconds()
         if(hours < 10) hours = '0'+hours
 
-        return hours + ':' + minutes // + ':' + seconds.substr(-2)
+        return {
+            time: `${hours}:${minutes}`,
+            morning: morning
+        }
     }
 }

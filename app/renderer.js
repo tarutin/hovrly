@@ -43,7 +43,8 @@ function update()
 
         if(result == 'dev-mode') {
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'Not working on Development'
+            $('.update-message').innerHTML = `<span class='gray'>Not working on Development</span>`
+            setTimeout(() => { $('.update-message').innerText = 'Check for Update' }, 3000)
         }
 
         if(result == 'downloaded') {
@@ -63,11 +64,8 @@ function update()
 
         if(result == 'not-available') {
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'You have latest version'
-
-            setTimeout(() => {
-                $('.update-message').innerText = 'Check for Update'
-            }, 3000)
+            $('.update-message').innerHTML = `<span class='gray'>You have latest version</span>`
+            setTimeout(() => { $('.update-message').innerText = 'Check for Update' }, 3000)
         }
     })
 }
@@ -87,11 +85,17 @@ function theme()
 function twentyforhour()
 {
     setTimeout(function() {
-        $('.twentyfourhour').classList.add(clock.isTwentyFourHour() == 'on' ? 'active' : '')
+        if(clock.isTwentyFourHour() == 'on') {
+            $('.twentyfourhour').classList.add('active')
+        }
+        else {
+            $('.clock').classList.add('ampm')
+        }
     }, 1)
 
     $('.twentyfourhour').addEventListener('click', e => {
         e.target.classList.toggle('active')
+        $('.clock').classList.toggle('ampm')
         ipc.send('twentyfourhour')
         updateTime()
     })
@@ -234,7 +238,9 @@ function updateTime() {
     $all('.clock button').forEach(item => {
         let time = item.querySelector('time')
         let utc_offset = utc + time.getAttribute('data-offset') * 3600000
-        time.innerText = clock.formatTime(utc_offset)
+        let format = clock.formatTime(utc_offset)
+        time.classList.add(format.morning)
+        time.innerText = format.time
     })
 }
 
