@@ -182,7 +182,7 @@ function formatTime(ts) {
     let hours = date.getUTCHours()
     let minutes = date.getUTCMinutes()
     let ampm = hours >= 12 ? 'PM' : 'AM'
-    let morning = hours >= 7 && hours <= 20 ? 'morning' : 'evening'
+    let morning = hours >= 4 && hours <= 21 ? 'morning' : 'evening'
 
     minutes = minutes < 10 ? '0'+minutes : minutes
 
