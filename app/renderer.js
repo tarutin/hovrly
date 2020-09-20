@@ -32,9 +32,8 @@ function init()
 function slider()
 {
     current()
-    tick()
 
-    $('.slider input').addEventListener('input', recalc)
+    $('.slider input').addEventListener('input', sliderRecalc)
 
     $('.slider input').addEventListener('mousedown', e => {
         $all('.clock button:not(.active)').forEach(item => {
@@ -50,39 +49,10 @@ function slider()
         })
     })
 
-    function recalc()
-    {
-        let el = $('.slider input')
-        let hours = Math.floor(el.value / 60)
-        let minutes = Math.round(((el.value / 60) - hours) * 60)
-        hours = hours < 10 ? '0'+hours : hours
-        minutes = minutes < 10 ? '0'+minutes : minutes
-
-        $('.slider .now').innerHTML = `${hours}:${minutes}`
-        $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3
-        $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 0.3
-        updateTime()
-
-        let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
-        left = el.value < 1260 ? left + 35 : left - 13
-        $('.slider .now').style.left = `${left}px`
-    }
-
     function current()
     {
-        let date = new Date()
-        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
-        recalc()
-    }
-
-    function tick()
-    {
-        let now = new Date()
-
-        setTimeout(() => {
-            current()
-            tick()
-        }, (60 - now.getSeconds()) * 1000 - now.getMilliseconds())
+        $('.slider input').value = (new Date().getHours() * 60) + new Date().getMinutes()
+        sliderRecalc()
     }
 }
 
@@ -286,6 +256,8 @@ function clocks()
         let tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
 
         setTimeout(function() {
+            $('.slider input').value = (new Date().getHours() * 60) + new Date().getMinutes()
+            sliderRecalc()
             updateTime()
             runClock()
         }, tick)
@@ -310,6 +282,26 @@ function updateTime() {
         time.classList.add(format.morning)
         time.innerText = format.time
     })
+}
+
+
+
+function sliderRecalc()
+{
+    let el = $('.slider input')
+    let hours = Math.floor(el.value / 60)
+    let minutes = Math.round(((el.value / 60) - hours) * 60)
+    hours = hours < 10 ? '0'+hours : hours
+    minutes = minutes < 10 ? '0'+minutes : minutes
+
+    $('.slider .now').innerHTML = `${hours}:${minutes}`
+    $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3
+    $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 0.3
+    updateTime()
+
+    let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
+    left = el.value < 1260 ? left + 35 : left - 13
+    $('.slider .now').style.left = `${left}px`
 }
 
 function updateAppHeight()
