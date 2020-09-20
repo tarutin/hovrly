@@ -226,9 +226,9 @@ function clocks()
         button.classList.add(clock.tray ? 'active' : null)
 
         button.innerHTML = `
-            <time data-offset='${clock.offset}'></time>
+            <time class='clearfix' data-offset='${clock.offset}'></time>
             ${clock.full}
-            <span class='delete'><i class='fa fa-fw fa-times-circle fa-fw'></i></span>
+            <span class='delete'></span>
         `
         button.setAttribute('data-name', clock.name)
 
@@ -300,7 +300,7 @@ function sliderRecalc()
     updateTime()
 
     let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
-    left = el.value < 1260 ? left + 35 : left - 13
+    left = el.value < 1260 ? left + 25 : left - 23
     $('.slider .now').style.left = `${left}px`
 }
 
