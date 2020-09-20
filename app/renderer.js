@@ -65,8 +65,8 @@ function slider()
         minutes = minutes < 10 ? '0'+minutes : minutes
 
         $('.slider .now').innerHTML = `${hours}:${minutes}`
-        $('.slider .from').style.opacity = el.value < 200 ? 0 : 1
-        $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 1
+        $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3
+        $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 0.3
         updateTime()
 
         let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)

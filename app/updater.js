@@ -38,7 +38,9 @@ function init() {
         }
 
         if(!win.isVisible()) {
-            notice.send(`Update ready to install`)
+            notice.send(`Update ready to install`, () => {
+                win.show()
+            })
         }
 
         win.webContents.send('update-finish', 'downloaded')

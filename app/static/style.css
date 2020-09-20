@@ -13,7 +13,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 25px; }
 .search label { position:absolute; z-index:9; top:-2px; right:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:400; font-size:13px; }
 .clock { padding:5px 15px; background:#0C0F12; }
-.clock button { display:block; position:relative; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; opacity:.3; transition:all 0.2s linear; }
+.clock button { display:block; position:relative; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; opacity:.3; transition:all 0.2s linear 0s; }
 .clock button:hover { opacity:.5; }
 .clock button.active, .clock button.focus { opacity:1; }
 .clock button time { display:inline-block; margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
@@ -33,7 +33,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .slider input { position:relative; z-index:30; background:transparent; width:100%; height:37px; -webkit-appearance:none; appearance:none; }
 .slider input::-webkit-slider-thumb { width:1px; height:37px; background:#2278FF; cursor:pointer; -webkit-appearance:none; appearance:none; }
 .slider .now { position:absolute; z-index:28; top:13px; left:50%; color:#fff; font-size:10px; }
-.slider .from, .slider .to { position:absolute; z-index:29; top:13px; color:#fff; opacity:.5; transition:all 0.2s linear; }
+.slider .from, .slider .to { position:absolute; z-index:29; top:13px; color:#fff; opacity:.3; transition:all 0.2s linear 0s; }
 .slider .from { font-size:10px; left:25px; }
 .slider .to { font-size:10px; right:25px; }
 
