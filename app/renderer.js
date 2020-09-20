@@ -41,7 +41,7 @@ function slider()
 
     $('.slider input').addEventListener('mousedown', e => {
         $all('.clock button:not(.active)').forEach(item => {
-            item.style.opacity = 1
+            item.classList.add('focus')
         })
     })
 
@@ -50,7 +50,7 @@ function slider()
         $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
 
         $all('.clock button:not(.active)').forEach(item => {
-            item.style.opacity = 0.5
+            item.classList.remove('focus')
         })
 
         recalc()

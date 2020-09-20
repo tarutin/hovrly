@@ -15,7 +15,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .clock { padding:5px 15px; background:#0C0F12; }
 .clock button { display:block; position:relative; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; opacity:.3; transition:all 0.2s linear; }
 .clock button:hover { opacity:.5; }
-.clock button.active { opacity:1; }
+.clock button.active, .clock button.focus { opacity:1; }
 .clock button time { display:inline-block; margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun.svg'); }
