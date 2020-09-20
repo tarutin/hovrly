@@ -14,8 +14,8 @@ function init()
     ipc.on('app-height-get', updateAppHeight)
 
     theme()
-    clocks()
     slider()
+    clocks()
     search()
     quit()
     update()
@@ -31,11 +31,8 @@ function init()
 
 function slider()
 {
-    setTimeout(() => {
-        let date = new Date()
-        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
-        recalc()
-    }, 1)
+    current()
+    tick()
 
     $('.slider input').addEventListener('input', recalc)
 
@@ -46,14 +43,11 @@ function slider()
     })
 
     $('.slider input').addEventListener('mouseup', e => {
-        let date = new Date()
-        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
+        current()
 
         $all('.clock button:not(.active)').forEach(item => {
             item.classList.remove('focus')
         })
-
-        recalc()
     })
 
     function recalc()
@@ -72,6 +66,23 @@ function slider()
         let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
         left = el.value < 1260 ? left + 35 : left - 13
         $('.slider .now').style.left = `${left}px`
+    }
+
+    function current()
+    {
+        let date = new Date()
+        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
+        recalc()
+    }
+
+    function tick()
+    {
+        let now = new Date()
+
+        setTimeout(() => {
+            current()
+            tick()
+        }, (60 - now.getSeconds()) * 1000 - now.getMilliseconds())
     }
 }
 
@@ -233,8 +244,10 @@ function search()
 
 function clocks()
 {
-    updateTime()
-    runClock()
+    setTimeout(function() {
+        updateTime()
+        runClock()
+    }, 1)
 
     ipc.on('add-clock', (e, clock) => {
 
@@ -273,12 +286,8 @@ function clocks()
         let tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
 
         setTimeout(function() {
-            $('.slider input').value = (now.getHours() * 60) + now.getMinutes()
-
-            setTimeout(() => {
-                updateTime()
-                runClock()
-            }, 1)
+            updateTime()
+            runClock()
         }, tick)
     }
 }
