@@ -1,7 +1,7 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "description": "Hovrly — simple multi clock",
     "main": "app/index.js",
     "scripts": {
@@ -32,17 +32,12 @@
     "license": "MIT",
     "devDependencies": {
         "electron": "^10.1.2",
-        "electron-installer-dmg": "^3.0.0",
-        "electron-packager": "^15.1.0",
-        "electron-winstaller": "^4.0.1",
         "electron-builder": "^22.8.1"
     },
     "dependencies": {
         "auto-launch": "^5.0.5",
-        "electron-dl": "^3.0.2",
         "electron-positioner": "^4.1.0",
         "electron-settings": "^4.0.2",
-        "mysql2": "^2.1.0",
-        "request": "^2.88.2"
+        "mysql2": "^2.1.0"
     }
 }

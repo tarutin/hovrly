@@ -7,7 +7,6 @@ const settings = require('electron-settings')
 const config = require('./config')
 const tray = require('./tray')
 const ipc = electron.ipcMain
-const request = require('request')
 const window = require('./window')
 const notice = require('./notice')
 
