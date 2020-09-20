@@ -15,6 +15,7 @@ function init()
 
     theme()
     clocks()
+    slider()
     search()
     quit()
     update()
@@ -27,6 +28,52 @@ function init()
     ipc.send('ready')
 }
 
+
+function slider()
+{
+    setTimeout(() => {
+        let date = new Date()
+        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
+        recalc()
+    }, 1)
+
+    $('.slider input').addEventListener('input', recalc)
+
+    $('.slider input').addEventListener('mousedown', e => {
+        $all('.clock button:not(.active)').forEach(item => {
+            item.style.opacity = 1
+        })
+    })
+
+    $('.slider input').addEventListener('mouseup', e => {
+        let date = new Date()
+        $('.slider input').value = (date.getHours() * 60) + date.getMinutes()
+
+        $all('.clock button:not(.active)').forEach(item => {
+            item.style.opacity = 0.5
+        })
+
+        recalc()
+    })
+
+    function recalc()
+    {
+        let el = $('.slider input')
+        let hours = Math.floor(el.value / 60)
+        let minutes = Math.round(((el.value / 60) - hours) * 60)
+        hours = hours < 10 ? '0'+hours : hours
+        minutes = minutes < 10 ? '0'+minutes : minutes
+
+        $('.slider .now').innerHTML = `${hours}:${minutes}`
+        $('.slider .from').style.opacity = el.value < 200 ? 0 : 1
+        $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 1
+        updateTime()
+
+        let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
+        left = el.value < 1260 ? left + 35 : left - 13
+        $('.slider .now').style.left = `${left}px`
+    }
+}
 
 function update()
 {
@@ -226,19 +273,31 @@ function clocks()
         let tick = (60 - now.getSeconds()) * 1000 - now.getMilliseconds()
 
         setTimeout(function() {
-            updateTime()
-            runClock()
+            $('.slider input').value = (now.getHours() * 60) + now.getMinutes()
+
+            setTimeout(() => {
+                updateTime()
+                runClock()
+            }, 1)
         }, tick)
     }
 }
 
 function updateTime() {
-    let utc = Math.floor(new Date().getTime())
+    // let utc = Math.floor(new Date().getTime())
+
+    let val = $('.slider input').value
+    let hours = Math.floor(val / 60)
+    let minutes = Math.round(((val / 60) - hours) * 60)
+    let date = new Date()
+    date.setHours(hours, minutes, 0, 0)
+    let utc = Math.floor(date.getTime())
 
     $all('.clock button').forEach(item => {
         let time = item.querySelector('time')
         let utc_offset = utc + time.getAttribute('data-offset') * 3600000
         let format = clock.formatTime(utc_offset)
+        time.classList.remove('morning', 'evening')
         time.classList.add(format.morning)
         time.innerText = format.time
     })

@@ -3,13 +3,19 @@
     <head>
         <title>APP</title>
         <meta charset='utf-8'/>
-        <meta http-equiv='Content-Security-Policy' content="script-src 'self' 'unsafe-inline';" />
+        <meta http-equiv='Content-Security-Policy' content="script-src 'self' 'unsafe-inline';"/>
         <link rel='stylesheet' href='../static/style.css'/>
     </head>
     <body class='app'>
         <section class='search'>
             <input type='input' name='q' placeholder='Search'/>
             <label/>
+        </section>
+        <section class='slider'>
+            <input name='slider' type='range' min='0' max='1439' step='1'/>
+            <span class='from'>00:00</span>
+            <span class='to'>23:59</span>
+            <span class='now'></span>
         </section>
         <section class='clock'>
         </section>
@@ -31,6 +37,5 @@
         </section>
 
         <script>require('../renderer')</script>
-        <style> ::selection { background:blue; } </style>
     </body>
 </html>

@@ -13,6 +13,7 @@ const launch = require('./launch')
 const clock = require('./clock')
 const notice = require('./notice')
 const updater = require('./updater')
+const system = electron.systemPreferences
 const db = require('./db')
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
