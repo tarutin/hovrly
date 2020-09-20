@@ -1,7 +1,7 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "description": "Hovrly — simple multi clock",
     "main": "app/index.js",
     "scripts": {
