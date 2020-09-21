@@ -115,16 +115,32 @@ function twentyforhour()
     setTimeout(function() {
         if(clock.isTwentyFourHour() == 'on') {
             $('.twentyfourhour').classList.add('active')
+            $('.slider .from').innerText = '00:00'
+            $('.slider .to').innerText = '23:59'
         }
         else {
             $('.clock').classList.add('ampm')
+            $('.slider .from').innerText = '12:00 AM'
+            $('.slider .to').innerText = '11:59 PM'
         }
     }, 1)
 
     $('.twentyfourhour').addEventListener('click', e => {
         e.target.classList.toggle('active')
-        $('.clock').classList.toggle('ampm')
+
+        if($('.clock').classList.contains('ampm')) {
+            $('.clock').classList.remove('ampm')
+            $('.slider .from').innerText = '00:00'
+            $('.slider .to').innerText = '23:59'
+        }
+        else {
+            $('.clock').classList.add('ampm')
+            $('.slider .from').innerText = '12:00 AM'
+            $('.slider .to').innerText = '11:59 PM'
+        }
+        
         ipc.send('twentyfourhour')
+        sliderRecalc()
         updateTime()
     })
 }
@@ -205,7 +221,7 @@ function search()
 
                 db.find(query, city => {
                     $('.search label').innerText = !city ? 'Not found' : city.name + ', ' + city.code
-                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, offset: Number(city.offset), tray: 0 } : null
+                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, offset: city.offset, tray: 0 } : null
                 })
             }
         }
@@ -289,12 +305,13 @@ function updateTime() {
 function sliderRecalc()
 {
     let el = $('.slider input')
-    let hours = Math.floor(el.value / 60)
-    let minutes = Math.round(((el.value / 60) - hours) * 60)
-    hours = hours < 10 ? '0'+hours : hours
-    minutes = minutes < 10 ? '0'+minutes : minutes
+    // let hours = Math.floor(el.value / 60)
+    // let minutes = Math.round(((el.value / 60) - hours) * 60)
+    // hours = hours < 10 ? '0'+hours : hours
+    // minutes = minutes < 10 ? '0'+minutes : minutes
+    let format = clock.formatTime(el.value * 60 * 1000)
 
-    $('.slider .now').innerHTML = `${hours}:${minutes}`
+    $('.slider .now').innerText = format.time
     $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3
     $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 0.3
     updateTime()
