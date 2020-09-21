@@ -65,7 +65,7 @@ function getWin() {
 
 function show() {
     let position = positioner.calculate('trayLeft', tray.getBounds())
-    win.setPosition(position.x - 20, position.y + 10, false)
+    win.setPosition(position.x - 7, position.y + 10, false)
     win.show()
 }
 

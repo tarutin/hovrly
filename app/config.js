@@ -11,8 +11,8 @@ const config = {
     UPDATER_CHECK_TIME: 1000 * 60 * 30,
     UPDATER_CHECK_URL: 'https://hazel.alexeytarutin.vercel.app',
     DB_CONNECT: 'mysql://world:rocks@101101.ru/world?charset=UTF8_GENERAL_CI' /* JFYI: only SELECT access granted 😈 */,
-    LINK_ABOUT: 'https://hovrly.app/',
-    LINK_DONATE: 'https://hovlry.app/donate'
+    LINK_ABOUT: 'https://hovrly.com/',
+    LINK_DONATE: 'https://hovlry.com/donate'
 }
 
 module.exports = config
