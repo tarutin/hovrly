@@ -35,14 +35,24 @@ function collapse()
     setTimeout(function() {
         if(clock.isCollapsed() == 'on') {
             $('.app').classList.add('tiny')
+            $('.clock').style.maxHeight = '555px'
         }
         else {
             $('.app').classList.remove('tiny')
+            $('.clock').style.maxHeight = '300px'
         }
     }, 1)
 
     $('.collapse .toggle').addEventListener('click', e => {
-        $('.app').classList.toggle('tiny')
+        if($('.app').classList.contains('tiny')) {
+            $('.app').classList.remove('tiny')
+            $('.clock').style.maxHeight = '300px'
+        }
+        else {
+            $('.app').classList.add('tiny')
+            $('.clock').style.maxHeight = '555px'
+        }
+
         updateAppHeight()
         ipc.send('collapse')
     })

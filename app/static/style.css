@@ -19,7 +19,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 20px 10px 40px; background:url('../static/search-darkmode.svg') no-repeat 15px center; background-size:14px 14px; }
 .search label { position:absolute; z-index:9; top:-2px; right:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 25px; font-weight:400; font-size:13px; }
 
-.clock { padding:5px 15px; background:#0C0F12; }
+.clock { padding:5px 15px; background:#0C0F12; overflow-y:auto; }
 .clock button { display:block; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; opacity:.3; transition:all 0.2s linear 0s; }
 .clock button:hover { opacity:.5; }
 .clock button.active, .clock button.focus { opacity:1; }
