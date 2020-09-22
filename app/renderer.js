@@ -217,11 +217,12 @@ function search()
             }
             else {
 
-                let query = `SELECT name, UPPER(country) code, offset FROM cities WHERE city LIKE '%${q}%' ORDER BY popularity DESC LIMIT 1`
+                let query = `SELECT name, UPPER(country) code, timezone FROM cities WHERE city LIKE '%${q}%' ORDER BY popularity DESC LIMIT 1`
 
                 db.find(query, city => {
+                    if(!city.timezone) return
                     $('.search label').innerText = !city ? 'Not found' : city.name + ', ' + city.code
-                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, offset: city.offset, tray: 0 } : null
+                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, timezone: city.timezone, tray: 0 } : null
                 })
             }
         }
@@ -236,13 +237,14 @@ function clocks()
     }, 1)
 
     ipc.on('add-clock', (e, clock) => {
+        if(!clock.timezone) return
 
         let button = document.createElement('button')
 
         button.classList.add(clock.tray ? 'active' : null)
 
         button.innerHTML = `
-            <time class='clearfix' data-offset='${clock.offset}'></time>
+            <time class='clearfix' data-timezone='${clock.timezone}'></time>
             ${clock.full}
             <span class='delete'></span>
         `
@@ -281,19 +283,18 @@ function clocks()
 }
 
 function updateTime() {
-    // let utc = Math.floor(new Date().getTime())
 
     let val = $('.slider input').value
-    let hours = Math.floor(val / 60)
-    let minutes = Math.round(((val / 60) - hours) * 60)
-    let date = new Date()
-    date.setHours(hours, minutes, 0, 0)
-    let utc = Math.floor(date.getTime())
+    let now = new Date(), then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+    let diff = Math.floor((now.getTime() - then.getTime()) / 1000)
+    let offset = Math.floor((val * 60) - diff)
 
     $all('.clock button').forEach(item => {
         let time = item.querySelector('time')
-        let utc_offset = utc + time.getAttribute('data-offset') * 3600000
+        let tzDate = new Date().toLocaleString('en-US', {timeZone: time.getAttribute('data-timezone')})
+        let utc_offset = (offset * 1000) + new Date(tzDate).getTime()
         let format = clock.formatTime(utc_offset)
+
         time.classList.remove('morning', 'evening')
         time.classList.add(format.morning)
         time.innerText = format.time
@@ -305,7 +306,7 @@ function updateTime() {
 function sliderRecalc()
 {
     let el = $('.slider input')
-    let format = clock.formatTime(el.value * 60 * 1000)
+    let format = clock.formatTime(el.value * 60 * 1000, true)
 
     $('.slider .now').innerText = format.time
     $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3

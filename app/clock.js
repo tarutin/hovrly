@@ -18,7 +18,7 @@ function init() {
     // settings.unsetSync()
     // console.log( settings.getSync() )
 
-    if(!settings.hasSync('clocks')) {
+    if(!settings.hasSync('clocks[0].timezone')) {
         resetClocks()
     }
 
@@ -135,7 +135,9 @@ function update() {
 
     for (let i in clocks) {
         if (clocks[i].tray) {
-            let utc_offset = utc + clocks[i].offset * 3600000
+            if(!clocks[i].timezone) continue
+            let tzDate = new Date().toLocaleString('en-US', {timeZone: clocks[i].timezone})
+            let utc_offset = new Date(tzDate).getTime()
             let format = formatTime(utc_offset)
             title.push(parseClockName(clocks[i].name) + ' ' + format.time)
         }
@@ -170,16 +172,16 @@ function update() {
 
 function resetClocks() {
     settings.setSync('clocks', [
-        { name: 'Moscow', full: 'Moscow, RU', offset: 3, tray: 0 },
-        { name: 'Berlin', full: 'Berlin, DE', offset: 1, tray: 1 },
-        { name: 'New York', full: 'New York, US', offset: -5, tray: 1 },
+        { name: 'Moscow', full: 'Moscow, RU', timezone: 'Europe/Moscow', tray: 0 },
+        { name: 'Berlin', full: 'Berlin, DE', timezone: 'Europe/Berlin', tray: 1 },
+        { name: 'New York', full: 'New York, US', timezone: 'America/New_York', tray: 1 },
     ])
 }
 
-function formatTime(ts) {
+function formatTime(ts, local) {
     let date = new Date(ts)
-    let hours = date.getUTCHours()
-    let minutes = date.getUTCMinutes()
+    let hours = local ? date.getUTCHours() : date.getHours()
+    let minutes = local ? date.getUTCMinutes() : date.getMinutes()
     let ampm = hours >= 12 ? 'PM' : 'AM'
     let morning = hours >= 4 && hours < 21 ? 'morning' : 'evening'
 
