@@ -1,4 +1,5 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+/* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'); */
+@import url('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
 
 * { margin:0; padding:0; outline:none; color:#fff; font-weight:400; font-family:-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Ubuntu, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
 *, *:before, *:after { box-sizing:inherit; -webkit-box-sizing:inherit; }
@@ -6,6 +7,7 @@ html, body { font-size:13px; line-height:100%; -webkit-text-size-adjust:100%; -w
 button, html input[type='button'], input[type='reset'], input[type='submit'] { -webkit-appearance:button; cursor:pointer; }
 .btn { font-weight:400; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 20px; font-size:13px; }
 .btn:hover { background:#5B5B5B; }
+.hidden { display:none!important; }
 
 .titlebar { -webkit-app-region:drag; -webkit-user-select:none; text-align:center; font-size:80%; font-weight:600; padding:10px; opacity:.7; border-bottom:1px solid #222; }
 
@@ -31,6 +33,14 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .settings button { padding-left:30px; }
 .settings button:before { content:''; padding-left:8px; }
 .settings button.active:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/check-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
+
+.collapse { border-color:transparent!important; }
+.collapse button.toggle { padding:3px 20px; text-align:center; }
+.collapse button.toggle:before { font-family:'FontAwesome'; content:'\f106'; opacity:.3; }
+.app.tiny .collapse button.toggle:before { content:'\f107'; opacity:1; }
+.app.tiny .settings, .app.tiny .we, .app.tiny .quit { display:none; }
+.app.tiny .collapse button.install { background-color:#2662C1; color:#fff; opacity:1; }
+.app.tiny .collapse button.install:hover { background-color:#3b74cf; }
 
 .update { padding-left:30px; }
 .update:before { content:''; width:15px; height:15px; position:relative; top:2px; margin-left:-16px; margin-right:5px; background:url('../static/loading-darkmode.svg') no-repeat 0px 0px; background-size:15px 15px; display:inline-block; }

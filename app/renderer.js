@@ -24,10 +24,29 @@ function init()
     compact()
     about()
     donate()
+    collapse()
 
     ipc.send('ready')
 }
 
+
+function collapse()
+{
+    setTimeout(function() {
+        if(clock.isCollapsed() == 'on') {
+            $('.app').classList.add('tiny')
+        }
+        else {
+            $('.app').classList.remove('tiny')
+        }
+    }, 1)
+
+    $('.collapse .toggle').addEventListener('click', e => {
+        $('.app').classList.toggle('tiny')
+        updateAppHeight()
+        ipc.send('collapse')
+    })
+}
 
 function slider()
 {
@@ -79,6 +98,7 @@ function update()
             $('.update').classList.add('install')
             $('.update').classList.remove('loading')
             $('.update-message').innerText = 'Install Update & Restart'
+            $('.app.tiny .collapse button').classList.add('install')
 
             $('.update.install').addEventListener('click', () => {
                 $('.update').classList.add('loading')

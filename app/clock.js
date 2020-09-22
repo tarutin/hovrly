@@ -1,4 +1,4 @@
-module.exports = { init, formatTime, isCompactView, isTwentyFourHour }
+module.exports = { init, formatTime, isCompactView, isTwentyFourHour, isCollapsed }
 
 const path = require('path')
 const electron = require('electron')
@@ -30,6 +30,10 @@ function init() {
         settings.setSync('compact', 'off')
     }
 
+    if(!settings.hasSync('collapse')) {
+        settings.setSync('collapse', 'off')
+    }
+
     ipc.on('compact', () => {
         settings.setSync('compact', isCompactView() == 'on' ? 'off' : 'on')
         update()
@@ -37,6 +41,11 @@ function init() {
 
     ipc.on('twentyfourhour', () => {
         settings.setSync('twentyfourhour', isTwentyFourHour() == 'off' ? 'on' : 'off')
+        update()
+    })
+
+    ipc.on('collapse', () => {
+        settings.setSync('collapse', isCollapsed() == 'off' ? 'on' : 'off')
         update()
     })
 
@@ -102,6 +111,10 @@ function isTwentyFourHour() {
 
 function isCompactView() {
     return settings.getSync('compact')
+}
+
+function isCollapsed() {
+    return settings.getSync('collapse')
 }
 
 function parseClockName(name) {
