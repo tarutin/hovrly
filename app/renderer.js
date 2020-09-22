@@ -138,7 +138,7 @@ function twentyforhour()
             $('.slider .from').innerText = '12:00 AM'
             $('.slider .to').innerText = '11:59 PM'
         }
-        
+
         ipc.send('twentyfourhour')
         sliderRecalc()
         updateTime()
@@ -305,10 +305,6 @@ function updateTime() {
 function sliderRecalc()
 {
     let el = $('.slider input')
-    // let hours = Math.floor(el.value / 60)
-    // let minutes = Math.round(((el.value / 60) - hours) * 60)
-    // hours = hours < 10 ? '0'+hours : hours
-    // minutes = minutes < 10 ? '0'+minutes : minutes
     let format = clock.formatTime(el.value * 60 * 1000)
 
     $('.slider .now').innerText = format.time
@@ -317,7 +313,8 @@ function sliderRecalc()
     updateTime()
 
     let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
-    left = el.value < 1260 ? left + 25 : left - 23
+    let ampm_offset = clock.isTwentyFourHour() == 'on' ? 23 : 38
+    left = el.value < 1260 ? left + 25 : left - ampm_offset
     $('.slider .now').style.left = `${left}px`
 }
 
