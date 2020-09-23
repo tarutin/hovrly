@@ -49,7 +49,7 @@ function init() {
         update()
     })
 
-    ipc.on('get-clocks', () => {
+    ipc.on('clocks-get', () => {
         let clocks = settings.getSync('clocks')
         let win = window.getWin()
         for (let i in clocks) {
@@ -58,6 +58,22 @@ function init() {
 
         update()
         runClock()
+    })
+
+    ipc.on('clocks-sort', (e, sortTo) => {
+        let clocks = settings.getSync('clocks')
+        let newClocks = []
+
+        sortTo.forEach(to => {
+            clocks.forEach(from => {
+                if(from.name.replace(/[^a-z0-9]/gi, '') == to.replace(/[^a-z0-9]/gi, '')) {
+                    newClocks.push(from)
+                }
+            })
+        })
+
+        settings.setSync('clocks', newClocks)
+        update()
     })
 
     ipc.on('clock-add', (e, city) => {

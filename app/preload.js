@@ -9,7 +9,7 @@ function init()
 {
     document.title = config.APP_NAME
 
-    ipc.send('get-clocks')
+    ipc.send('clocks-get')
 
     $('.update .version').innerHTML += `v${config.APP_VERSION}`
 

@@ -1,11 +1,13 @@
 const electron = require('electron')
 const remote = electron.remote
+const app = remote.app
 const ipc = electron.ipcRenderer
 const config = remote.require('./config')
 const db = remote.require('./db')
 const clock = remote.require('./clock')
 const launch = remote.require('./launch')
 const nativeTheme = remote.nativeTheme
+const Sortable = require('sortablejs')
 const $ = selector => document.querySelector(selector)
 const $all = selector => document.querySelectorAll(selector)
 
@@ -25,10 +27,27 @@ function init()
     about()
     donate()
     collapse()
+    sortable()
 
     ipc.send('ready')
 }
 
+
+function sortable()
+{
+    let sortable = Sortable.create($('.clock'), {
+        draggable: 'button',
+        onUpdate: () => {
+            let sortTo = []
+            $all('.clock button').forEach(item => {
+                let name = item.getAttribute('data-name')
+                sortTo.push(name)
+            })
+
+            ipc.send('clocks-sort', sortTo)
+        },
+    })
+}
 
 function collapse()
 {
@@ -278,6 +297,7 @@ function clocks()
             ${clock.full}
             <span class='delete'></span>
         `
+        // button.setAttribute('data-id', $('.clock button').length+1)
         button.setAttribute('data-name', clock.name)
 
         button.addEventListener('click', e => {

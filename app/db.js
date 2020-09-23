@@ -52,7 +52,7 @@ function reconnect() {
         db.connect(function(err) {
             if (!err) {
                 connect = true
-                console.log('db', 'reconnect')
+                console.log('db', 'reconnected')
             }
         })
     }

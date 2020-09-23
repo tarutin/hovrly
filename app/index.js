@@ -17,8 +17,8 @@ const system = electron.systemPreferences
 const db = require('./db')
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
-
 process.on('uncaughtException', error)
+app.console = new console.Console(process.stdout, process.stderr)
 
 app.whenReady().then(() => {
     console.log('index init')
@@ -55,7 +55,6 @@ app.whenReady().then(() => {
         window.hide()
         shell.openExternal(config.LINK_DONATE)
     })
-
 })
 
 app.on('window-all-closed', () => {
