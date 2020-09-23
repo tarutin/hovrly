@@ -35,22 +35,22 @@ function collapse()
     setTimeout(function() {
         if(clock.isCollapsed() == 'on') {
             $('.app').classList.add('tiny')
-            $('.clock').style.maxHeight = '555px'
+            $('.clock').style.maxHeight = '565px'
         }
         else {
             $('.app').classList.remove('tiny')
-            $('.clock').style.maxHeight = '300px'
+            $('.clock').style.maxHeight = '310px'
         }
     }, 1)
 
     $('.collapse .toggle').addEventListener('click', e => {
         if($('.app').classList.contains('tiny')) {
             $('.app').classList.remove('tiny')
-            $('.clock').style.maxHeight = '300px'
+            $('.clock').style.maxHeight = '310px'
         }
         else {
             $('.app').classList.add('tiny')
-            $('.clock').style.maxHeight = '555px'
+            $('.clock').style.maxHeight = '565px'
         }
 
         updateAppHeight()
