@@ -1,8 +1,8 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.3.4",
-    "description": "Hovrly — simple multi clock",
+    "version": "2.3.5",
+    "description": "Best partner for disctributed teams",
     "main": "app/index.js",
     "scripts": {
         "start": "DEV=true electron .",

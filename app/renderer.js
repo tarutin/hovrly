@@ -294,6 +294,7 @@ function clocks()
         })
 
         $('.clock').appendChild(button)
+        $('.clock').scrollTop = $('.clock').scrollHeight
 
         updateTime()
         updateAppHeight()

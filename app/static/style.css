@@ -34,7 +34,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .settings button:before { content:''; padding-left:8px; }
 .settings button.active:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/check-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
 
-.collapse { border-color:transparent!important; }
+.collapse { border-bottom:none!important; }
 .collapse button.toggle { padding:3px 20px; text-align:center; }
 .collapse button.toggle:before { font-family:'FontAwesome'; content:'\f106'; opacity:.3; }
 .app.tiny .collapse button.toggle:before { content:'\f107'; opacity:1; }
