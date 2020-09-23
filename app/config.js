@@ -12,7 +12,7 @@ const config = {
     UPDATER_CHECK_URL: 'https://app.hovrly.com',
     DB_CONNECT: 'mysql://world:rocks@101101.ru/world?charset=UTF8_GENERAL_CI' /* JFYI: only SELECT access granted 😈 */,
     LINK_ABOUT: 'https://hovrly.com/',
-    LINK_DONATE: 'https://hovlry.com/donate'
+    LINK_DONATE: 'https://hovrly.com/donate'
 }
 
 module.exports = config
