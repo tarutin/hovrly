@@ -34,7 +34,7 @@ function init() {
         if(process.platform == 'darwin' && !win.isVisible()) {
             app.dock.show()
             app.dock.bounce()
-            app.dock.setBadge('•')
+            app.dock.setBadge(' ')
         }
 
         if(!win.isVisible()) {
