@@ -1,5 +1,5 @@
-/* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'); */
-@import url('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+/* @import url('//use.fontawesome.com/releases/v5.1.0/css/all.css'); */
 
 * { margin:0; padding:0; outline:none; color:#fff; font-weight:400; font-family:-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Ubuntu, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
 *, *:before, *:after { box-sizing:inherit; -webkit-box-sizing:inherit; }

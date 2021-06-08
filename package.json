@@ -1,7 +1,7 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.3.8",
+    "version": "2.3.9",
     "description": "Best partner for disctributed teams",
     "main": "app/index.js",
     "scripts": {
