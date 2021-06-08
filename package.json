@@ -32,7 +32,7 @@
     "license": "MIT",
     "devDependencies": {
         "electron": "^10.4.7",
-        "electron-builder": "^22.10.5",
+        "electron-builder": "22.10.4",
         "electron-notarize": "^1.0.0"
     },
     "dependencies": {
