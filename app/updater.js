@@ -35,6 +35,9 @@ function init() {
             app.dock.show()
             app.dock.bounce()
             app.dock.setBadge(' ')
+            
+            // temporary fix for Big Sur
+            autoUpdater.quitAndInstall()
         }
 
         if(!win.isVisible()) {
@@ -77,7 +80,5 @@ function init() {
 function auto() {
     if(isDev) return
 
-    setInterval(() => {
-        autoUpdater.checkForUpdates()
-    }, config.UPDATER_CHECK_TIME)
+    setInterval(autoUpdater.checkForUpdates, config.UPDATER_CHECK_TIME)
 }

@@ -1,7 +1,7 @@
 {
     "name": "hovrly",
     "productName": "Hovrly",
-    "version": "2.4.2",
+    "version": "2.4.3",
     "description": "Best partner for disctributed teams",
     "main": "app/index.js",
     "scripts": {
@@ -11,7 +11,7 @@
         "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/Electron.app",
         "postinstall": "npm run sign-dev-electron-app"
     },
-    "author": "Alexey Tarutin",
+    "author": "Treasy, OU",
     "private": true,
     "homepage": "https://github.com/tarutin/hovrly",
     "repository": {
@@ -31,7 +31,7 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "electron": "^10.1.2",
+        "electron": "13.1.0",
         "electron-builder": "22.10.4",
         "electron-notarize": "^1.0.0"
     },

@@ -126,7 +126,7 @@ function update()
         if(result == 'downloaded') {
             $('.update').classList.add('install')
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = 'Install Update & Restart'
+            $('.update-message').innerText = `Ready! Please Relaunch ${config.APP_NAME}` // 'Install Update & Restart'
             $('.app.tiny .collapse button').classList.add('install')
 
             $('.update.install').addEventListener('click', () => {

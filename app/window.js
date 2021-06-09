@@ -30,7 +30,8 @@ function init() {
         webPreferences: {
             preload: `${__dirname}/preload.js`,
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            contextIsolation: false
         }
     })
 
