@@ -5,5 +5,10 @@
 ## Download
 Here — **<a href="https://hovrly.com" target="_blank">hovrly.com</a>**
 
+## Contact Us
+Telegram — **<a href="https://t.me/hovrly_feedback" target="_blank">@hovrly_feedback</a>**
+or
+Mail — **<a href="mailto:bolshakov@onmail.com" target="_blank">bolshakov@onmail.com</a>**
+
 ## License
 MIT
