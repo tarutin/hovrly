@@ -39,7 +39,8 @@ function getIcon()
 }
 
 function setTitle(title) {
-    tray.setTitle(title)
+    const WHITE = '\033[37;1m'
+    tray.setTitle(WHITE + title)
 }
 
 function setHighlightMode(mode) {
