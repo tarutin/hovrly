@@ -29,14 +29,16 @@ function init() {
 
 function find(q, callback) {
     if (!connect) return
-
+    var results = null
+    
     db.query(q, function(error, results, fields) {
         if (error) {
             console.log('db err', error.code)
             connect = false
             reconnect()
         }
-        if (results) callback(results[0], fields)
+        if(results[0]) callback(results[0], fields)
+        else callback(false)
     })
 }
 

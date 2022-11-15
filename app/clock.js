@@ -1,4 +1,4 @@
-module.exports = { init, formatTime, isCompactView, isTwentyFourHour, isCollapsed }
+module.exports = { init, formatTime, getTzTime, isCompactView, isTwentyFourHour, isCollapsed, isDate }
 
 const path = require('path')
 const electron = require('electron')
@@ -34,6 +34,10 @@ function init() {
         settings.setSync('collapse', 'off')
     }
 
+    if(!settings.hasSync('date')) {
+        settings.setSync('date', 'off')
+    }
+
     ipc.on('compact', () => {
         settings.setSync('compact', isCompactView() == 'on' ? 'off' : 'on')
         update()
@@ -46,6 +50,11 @@ function init() {
 
     ipc.on('collapse', () => {
         settings.setSync('collapse', isCollapsed() == 'off' ? 'on' : 'off')
+        update()
+    })
+
+    ipc.on('date', () => {
+        settings.setSync('date', isDate() == 'off' ? 'on' : 'off')
         update()
     })
 
@@ -133,6 +142,10 @@ function isCollapsed() {
     return settings.getSync('collapse')
 }
 
+function isDate() {
+    return settings.getSync('date')
+}
+
 function parseClockName(name) {
     if(isCompactView() == 'on') {
         let isDoubleName = (name.split(' ').length - 1) > 0 ? true : false
@@ -158,46 +171,31 @@ function runClock() {
 }
 
 function update() {
-    var clocks = settings.getSync('clocks')
-    var utc = Math.floor(new Date().getTime())
-    var title = []
+    let title = []
+    let clocks = settings.getSync('clocks')
+    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    let now = new Date()
+    let date = isDate() == 'on' ? `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}   ` : ''
 
     for (let i in clocks) {
         if (clocks[i].tray) {
             if(!clocks[i].timezone) continue
-            let tzDate = new Date().toLocaleString('en-US', {timeZone: clocks[i].timezone})
-            let utc_offset = new Date(tzDate).getTime()
-            let format = formatTime(utc_offset)
-            title.push(parseClockName(clocks[i].name) + ' ' + format.time)
+            let tz = getTzTime(clocks[i].timezone)
+            title.push(parseClockName(clocks[i].name) + ' ' + tz.time)
         }
     }
 
-    title = title.length ? ' ' + title.join('   ') + ' ' : title.join('   ')
-    tray.setTitle(title)
+    tray.setTitle(date + title.join('   '))
+    tray.update()
 }
 
-// function getCity(name, callback) {
-//     let url = 'https://timezoneapi.io/api/address/?' + encodeURIComponent(name).replace(/%20/g, '+')
-//
-//     request(url, function(err, res, dat) {
-//         if (err) console.log('clock get city data:', err.code)
-//
-//         if (dat) {
-//             let data = JSON.parse(dat)
-//             let utc = Math.floor(new Date().getTime())
-//
-//             if (data.data.addresses_found > 0) {
-//                 let item = data.data.addresses[0]
-//                 callback({
-//                     name: item.city ? item.city : item.country,
-//                     full: item.city ? item.city + ', ' + item.country_code : item.country,
-//                     offset: item.datetime.offset_hours,
-//                     data: item,
-//                 })
-//             }
-//         }
-//     })
-// }
+function getTzTime(tz, offset) {
+    let tzDate = new Date().toLocaleString('en-US', {timeZone: tz})
+    let utc_offset = new Date(tzDate).getTime() + (offset ? offset : 0)
+    
+    return formatTime(utc_offset)
+}
 
 function resetClocks() {
     settings.setSync('clocks', [

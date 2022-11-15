@@ -2,9 +2,10 @@ const pkg = require('../package.json')
 const config = {
     APP_NAME: pkg.productName,
     APP_VERSION: pkg.version,
-    TRAY_ICON_MAC: `${__dirname}/static/tray.png`,
-    TRAY_ICON_MAC_DARKMODE: `${__dirname}/static/tray-darkmode.png`,
-    TRAY_ICON_WIN: `${__dirname}/static/tray-darkmode.png`,
+    TRAY_ICON_MAC: `${__dirname}/static/trayTemplate.png`,
+    TRAY_ICON_MAC_DARKMODE: `${__dirname}/static/tray-darkmodeTemplate.png`,
+    TRAY_ICON_WIN: `${__dirname}/static/tray-darkmodeTemplate.png`,
+    TRAY_ICON_ZERO: `${__dirname}/static/tray-zeroTemplate.png`,
     DOCK_ICON: `${__dirname}/static/icon.ico`,
     WIN_WIDTH: 325,
     DELAYED_INIT: 3000,

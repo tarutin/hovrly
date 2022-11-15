@@ -24,6 +24,7 @@ function init()
     startup()
     twentyforhour()
     compact()
+    date()
     about()
     donate()
     collapse()
@@ -206,6 +207,18 @@ function compact()
     })
 }
 
+function date()
+{
+    setTimeout(function() {
+        $('.date').classList.add(clock.isDate() == 'on' ? 'active' : '')
+    }, 1)
+
+    $('.date').addEventListener('click', e => {
+        e.target.classList.toggle('active')
+        ipc.send('date')
+    })
+}
+
 function donate()
 {
     $('.support').addEventListener('click', e => {
@@ -245,10 +258,10 @@ function search()
     $('.search input').addEventListener('keyup', e => {
         let keycode = e.keyCode ? e.keyCode : e.which
         let q = $('.search input').value.trim()
-        let label = $('.search label').innerText
+        
+        // $('.search label').innerText = ''
 
-        if (keycode == 13)
-        {
+        if(keycode == 13) {
             if(newclock) {
                 ipc.send('clock-add', newclock)
                 newclock = null
@@ -257,21 +270,18 @@ function search()
             $('.search label').innerText = ''
             $('.search input').value = ''
         }
-        else
-        {
+        else {
             if (q == '') {
-
                 newclock = null
                 $('.search label').innerText = ''
             }
             else {
-
-                let query = `SELECT name, UPPER(country) code, timezone FROM cities WHERE city LIKE '%${q}%' ORDER BY popularity DESC LIMIT 1`
+                let query = `SELECT name, UPPER(country) code, timezone FROM cities WHERE (city LIKE '%${q}%' OR CONCAT(city, ' ', country) LIKE '%${q}%') ORDER BY popularity DESC LIMIT 1`
 
                 db.find(query, city => {
-                    if(!city.timezone) return
-                    $('.search label').innerText = !city ? 'Not found' : city.name + ', ' + city.code
-                    newclock = city ? { name: city.name, full: city.name + ', ' + city.code, timezone: city.timezone, tray: 0 } : null
+                    if(city.name && !city.timezone) return
+                    $('.search label').innerText = !city.name ? 'Not found' : city.name + ', ' + city.code
+                    newclock = city.name ? { name: city.name, full: city.name + ', ' + city.code, timezone: city.timezone, tray: 0 } : null
                 })
             }
         }
@@ -290,12 +300,14 @@ function clocks()
 
         let button = document.createElement('button')
 
+        button.classList.add('clearfix')
         button.classList.add(clock.tray ? 'active' : null)
 
         button.innerHTML = `
             <time class='clearfix' data-timezone='${clock.timezone}'></time>
             ${clock.full}
             <span class='delete'></span>
+            <span class='eye'></span>
         `
         // button.setAttribute('data-id', $('.clock button').length+1)
         button.setAttribute('data-name', clock.name)
@@ -338,21 +350,17 @@ function updateTime() {
     let val = $('.slider input').value
     let now = new Date(), then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
     let diff = Math.floor((now.getTime() - then.getTime()) / 1000)
-    let offset = Math.floor((val * 60) - diff)
+    let offset = (Math.floor((val * 60) - diff)) * 1000
 
     $all('.clock button').forEach(item => {
         let time = item.querySelector('time')
-        let tzDate = new Date().toLocaleString('en-US', {timeZone: time.getAttribute('data-timezone')})
-        let utc_offset = (offset * 1000) + new Date(tzDate).getTime()
-        let format = clock.formatTime(utc_offset)
+        let tz = clock.getTzTime(time.getAttribute('data-timezone'), offset)
 
         time.classList.remove('morning', 'evening')
-        time.classList.add(format.morning)
-        time.innerText = format.time
+        time.classList.add(tz.morning)
+        time.innerText = tz.time
     })
 }
-
-
 
 function sliderRecalc()
 {

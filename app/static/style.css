@@ -15,20 +15,21 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .app section { border-bottom:1px solid rgba(255, 255, 255, .1); }
 .app section:last-of-type { border-bottom:none; }
 
-.search { position:relative; background:#0C0F12; cursor:text; }
+.search { position:relative; background:#0C0F12; }
 .search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 20px 10px 40px; background:url('../static/search-darkmode.svg') no-repeat 15px center; background-size:14px 14px; }
-.search label { position:absolute; z-index:9; top:2px; right:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 15px; font-weight:400; font-size:13px; }
+.search label { position:absolute; z-index:9; top:2px; right:0; z-index:9; text-align:right; cursor:pointer; display:block; width:100%; opacity:.5; padding:10px 15px; font-weight:400; font-size:13px; }
 
 .clock { padding:5px 15px; background:#0C0F12; overflow-y:auto; }
-.clock button { display:block; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; opacity:.3; transition:all 0.2s linear 0s; }
-.clock button:hover { opacity:.5; }
-.clock button.active, .clock button.focus { opacity:1; }
+.clock button { display:block; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; }
+.clock button.active {  }
 .clock button time { display:inline-block; margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun.svg'); }
 .clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon.svg'); }
-.clock button .delete { display:none; margin-left:10px; position:relative; top:2px; width:14px; height:14px; background:url('../static/remove-darkmode.svg') no-repeat 0px 0px; background-size:14px 14px; }
+.clock button .delete { display:none; margin-left:10px; position:relative; top:3px; width:16px; height:16px; background:url('../static/remove-darkmode.svg') no-repeat 0px 0px; background-size:16px 16px; }
 .clock button:hover .delete { display:inline-block; }
+.clock button .eye { display:inline-block; float:right; position:relative; top:3px; width:16px; height:16px; background:url('../static/eye-closed-darkmode.svg') no-repeat 0px 0px; background-size:16px 16px; }
+.clock button.active .eye { background-image:url('../static/eye-open-darkmode.svg'); }
 
 .settings button { padding-left:30px; }
 .settings button:before { content:''; padding-left:8px; }
@@ -80,6 +81,8 @@ b, strong { font-weight:600; }
 .light .clock { background:#F2F2F2; }
 .light .clock button { border-color:#000; color:#000; }
 .light .clock button .delete { background-image:url('../static/remove.svg'); }
+.light .clock button .eye { background-image:url('../static/eye-closed.svg'); }
+.light .clock button.active .eye { background-image:url('../static/eye-open.svg'); }
 .light .slider { background-color:#F2F2F2; border-color:#fff; }
 .light .slider .now, .light .slider .from, .light .slider .to { color:#000; }
 .light .settings button.active:before { background-image:url('../static/check.svg'); }
