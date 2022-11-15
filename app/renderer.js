@@ -257,7 +257,7 @@ function search()
     var newclock = null
     $('.search input').addEventListener('keyup', e => {
         let keycode = e.keyCode ? e.keyCode : e.which
-        let q = $('.search input').value.trim()
+        let q = $('.search input').value.trim().replace(',', '')
         
         // $('.search label').innerText = ''
 
@@ -276,7 +276,7 @@ function search()
                 $('.search label').innerText = ''
             }
             else {
-                let query = `SELECT name, UPPER(country) code, timezone FROM cities WHERE (city LIKE '%${q}%' OR CONCAT(city, ' ', country) LIKE '%${q}%') ORDER BY popularity DESC LIMIT 1`
+                let query = `SELECT name, UPPER(country) code, timezone FROM cities WHERE CONCAT(city, ' ', country) LIKE '%${q}%' ORDER BY popularity DESC LIMIT 1`
 
                 db.find(query, city => {
                     if(city.name && !city.timezone) return
