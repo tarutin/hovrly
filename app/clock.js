@@ -176,8 +176,16 @@ function update() {
     let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     let now = new Date()
-    let date = isDate() == 'on' ? `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}   ` : ''
-
+    let date = isDate() == 'on' ? `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}` : null
+    let isVisibleClock = false
+    
+    for (let i in clocks) {
+        if (clocks[i].tray) {
+            isVisibleClock = true
+            break
+        }
+    }
+    
     for (let i in clocks) {
         if (clocks[i].tray) {
             if(!clocks[i].timezone) continue
@@ -186,7 +194,18 @@ function update() {
         }
     }
 
-    tray.setTitle(date + title.join('   '))
+    tray.setTitle(
+        (
+            isDate() == 'on'
+                ?
+                    (!isVisibleClock ? ' ' : '')
+                    + date
+                    + (isVisibleClock ? '   ' : '')
+                :
+                    ''
+        )
+        + title.join('   ')
+    )
     tray.update()
 }
 
