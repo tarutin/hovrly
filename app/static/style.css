@@ -17,18 +17,19 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 
 .search { position:relative; background:#0C0F12; }
 .search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 20px 10px 40px; background:url('../static/search-darkmode.svg') no-repeat 15px center; background-size:14px 14px; }
-.search label { position:absolute; z-index:9; top:2px; right:0; z-index:9; text-align:right; cursor:pointer; display:block; width:100%; opacity:.5; padding:10px 15px; font-weight:400; font-size:13px; }
+.search label { position:absolute; z-index:9; top:2px; right:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 15px; font-weight:400; font-size:13px; }
 
 .clock { padding:5px 15px; background:#0C0F12; overflow-y:auto; }
-.clock button { display:block; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; }
-.clock button.active {  }
-.clock button time { display:inline-block; margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
+.clock button { display:flex; flex-direction:row; align-items:center; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; }
+.clock button time { margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun.svg'); }
 .clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon.svg'); }
-.clock button .delete { display:none; margin-left:10px; position:relative; top:3px; width:16px; height:16px; background:url('../static/remove-darkmode.svg') no-repeat 0px 0px; background-size:16px 16px; }
-.clock button:hover .delete { display:inline-block; }
-.clock button .eye { display:inline-block; float:right; position:relative; top:3px; width:16px; height:16px; background:url('../static/eye-closed-darkmode.svg') no-repeat 0px 0px; background-size:16px 16px; }
+.clock button .name { border:1px solid transparent; padding:1px 5px; border-radius:5px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; }
+.clock button .name.focus { max-width:150px; white-space:nowrap; overflow:hidden; border:1px solid #5B5B5B; }
+.clock button .delete { display:none; margin-left:5px; width:16px; height:16px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
+.clock button:hover .delete { display:inline-flex; }
+.clock button .eye { margin-left:auto; width:16px; height:16px; background:url('../static/eye-closed-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button.active .eye { background-image:url('../static/eye-open-darkmode.svg'); }
 
 .settings button { padding-left:30px; }

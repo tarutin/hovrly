@@ -8,6 +8,7 @@ const ipc = electron.ipcMain
 const tray = require('./tray')
 const Positioner = require('electron-positioner')
 
+var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
 var win = null
 var positioner
 
@@ -39,6 +40,7 @@ function init() {
 
     win.webContents.loadURL(`file://${__dirname}/templates/index.html`)
     win.setVisibleOnAllWorkspaces(true)
+    if(isDev && config.DEV_TOOLS) win.webContents.openDevTools();
 
     win.once('ready-to-show', () => {
         win.webContents.send('app-height-get')

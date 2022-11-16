@@ -84,18 +84,22 @@ function slider()
 
     $('.slider input').addEventListener('input', sliderRecalc)
 
-    $('.slider input').addEventListener('mousedown', e => {
-        $all('.clock button:not(.active)').forEach(item => {
-            item.classList.add('focus')
-        })
-    })
-
+    // $('.slider input').addEventListener('mousedown', e => {
+    //     $all('.clock button:not(.active)').forEach(item => {
+    //         item.classList.add('focus')
+    //     })
+    // })
+    // 
+    // $('.slider input').addEventListener('mouseup', e => {
+    //     current()
+    // 
+    //     $all('.clock button:not(.active)').forEach(item => {
+    //         item.classList.remove('focus')
+    //     })
+    // })
+    
     $('.slider input').addEventListener('mouseup', e => {
         current()
-
-        $all('.clock button:not(.active)').forEach(item => {
-            item.classList.remove('focus')
-        })
     })
 
     function current()
@@ -198,7 +202,7 @@ function twentyforhour()
 function compact()
 {
     setTimeout(function() {
-        $('.compact').classList.add(clock.isCompactView() == 'on' ? 'active' : '')
+        if(clock.isCompactView() == 'on') $('.compact').classList.add('active')
     }, 1)
 
     $('.compact').addEventListener('click', e => {
@@ -210,7 +214,7 @@ function compact()
 function date()
 {
     setTimeout(function() {
-        $('.date').classList.add(clock.isDate() == 'on' ? 'active' : '')
+        if(clock.isDate() == 'on') $('.date').classList.add('active')
     }, 1)
 
     $('.date').addEventListener('click', e => {
@@ -236,7 +240,7 @@ function about()
 function startup()
 {
     setTimeout(function() {
-        $('.startup').classList.add(launch.isAutoOpen() ? 'active' : '')
+        if(launch.isAutoOpen()) $('.startup').classList.add('active')
     }, 1)
 
     $('.startup').addEventListener('click', e => {
@@ -270,6 +274,11 @@ function search()
             $('.search label').innerText = ''
             $('.search input').value = ''
         }
+        else if(keycode == 27) {
+            newclock = null
+            $('.search label').innerText = ''
+            $('.search input').value = ''
+        }
         else {
             if (q == '') {
                 newclock = null
@@ -300,24 +309,74 @@ function clocks()
 
         let button = document.createElement('button')
 
-        button.classList.add('clearfix')
-        button.classList.add(clock.tray ? 'active' : null)
+        if(clock.tray) button.classList.add('active')
 
         button.innerHTML = `
             <time class='clearfix' data-timezone='${clock.timezone}'></time>
-            ${clock.full}
+            <span class='name' contenteditable='true' spellcheck='false'>${clock.full}</span>
             <span class='delete'></span>
             <span class='eye'></span>
         `
         // button.setAttribute('data-id', $('.clock button').length+1)
         button.setAttribute('data-name', clock.name)
 
-        button.addEventListener('click', e => {
+        // rename
+            
+            var inputPrevName = ''
+            
+            // activate
+            button.querySelector('.name').addEventListener('click', e => {
+                e.stopPropagation()
+                let input = e.target.closest('.name')
+                input.classList.add('focus')
+                inputPrevName = input.innerText
+            })
+            
+            // deactivate
+            button.querySelector('.name').addEventListener('blur', e => {
+                e.stopPropagation()
+                let input = e.target.closest('.name')
+                input.classList.remove('focus')
+                input.blur()
+                input.innerText = inputPrevName
+            })
+
+            // paste
+            button.querySelector('.name').addEventListener('paste', e => {
+                e.preventDefault()
+                let input = e.target.closest('.name')
+                let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                document.execCommand('insertHTML', false, text);
+                inputPrevName = input.innerText
+            })
+            
+            button.querySelector('.name').addEventListener('keydown', e => {
+                let keycode = e.keyCode ? e.keyCode : e.which
+                let input = e.target.closest('.name')
+                
+                if(keycode == 13) {
+                    ipc.send('clock-rename', inputPrevName, input.innerText)
+                    inputPrevName = input.innerText
+                    input.blur()
+                    e.preventDefault()
+                }
+                
+                if(keycode == 27) {
+                    input.classList.remove('focus')
+                    input.innerText = inputPrevName
+                    input.blur()
+                    e.preventDefault()
+                }
+            })
+
+        // show/hide
+        button.querySelector('.eye').addEventListener('click', e => {
             e.stopPropagation()
             e.target.closest('button').classList.toggle('active')
             ipc.send('clock-toggle', e.target.closest('button').getAttribute('data-name'))
         })
 
+        // delete
         button.querySelector('.delete').addEventListener('click', e => {
             e.stopPropagation()
             ipc.send('clock-remove', button.getAttribute('data-name'))

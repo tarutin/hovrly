@@ -1,45 +1,45 @@
 {
-    "name": "hovrly",
-    "productName": "Hovrly",
-    "version": "2.4.3",
-    "description": "Best partner for disctributed teams",
-    "main": "app/index.js",
-    "scripts": {
-        "start": "DEV=true electron .",
-        "build": "electron-builder build --mac --publish never",
-        "publish": "electron-builder build --mac --publish always",
-        "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/Electron.app",
-        "postinstall": "npm run sign-dev-electron-app"
-    },
-    "author": "Treasy, OU",
-    "private": true,
-    "homepage": "https://github.com/tarutin/hovrly",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/tarutin/hovrly.git"
-    },
-    "bugs": {
-        "url": "https://github.com/tarutin/hovrly/issues"
-    },
-    "keywords": [
-        "desktop",
-        "electron",
-        "electron-app",
-        "clock",
-        "multi clock",
-        "hovrly"
-    ],
-    "license": "MIT",
-    "devDependencies": {
-        "electron": "13.1.0",
-        "electron-builder": "22.10.4"
-    },
-    "dependencies": {
-        "auto-launch": "^5.0.5",
-        "electron-positioner": "^4.1.0",
-        "electron-settings": "^4.0.2",
-        "electron-notarize": "^1.0.0",
-        "mysql2": "^2.2.5",
-        "sortablejs": "^1.13.0"
-    }
+  "name": "hovrly",
+  "productName": "Hovrly",
+  "version": "2.4.4",
+  "description": "Best partner for disctributed teams",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "DEV=true electron .",
+    "build": "electron-builder build --mac --publish never",
+    "publish": "electron-builder build --mac --publish always",
+    "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/Electron.app",
+    "postinstall": "npm run sign-dev-electron-app"
+  },
+  "author": "Treasy, OU",
+  "private": true,
+  "homepage": "https://github.com/tarutin/hovrly",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tarutin/hovrly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tarutin/hovrly/issues"
+  },
+  "keywords": [
+    "desktop",
+    "electron",
+    "electron-app",
+    "clock",
+    "multi clock",
+    "hovrly"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "13.1.0",
+    "electron-builder": "22.10.4"
+  },
+  "dependencies": {
+    "auto-launch": "^5.0.5",
+    "electron-positioner": "^4.1.0",
+    "electron-settings": "^4.0.2",
+    "electron-notarize": "^1.0.0",
+    "mysql2": "^2.2.5",
+    "sortablejs": "^1.13.0"
+  }
 }

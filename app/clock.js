@@ -105,6 +105,20 @@ function init() {
         }
     })
 
+    ipc.on('clock-rename', (e, oldName, newName) => {
+        let clocks = settings.getSync('clocks')
+        clocks.forEach((clock, index) => {
+            if (clock.full.replace(/[^a-z0-9]/gi, '') == oldName.replace(/[^a-z0-9]/gi, '')) {
+                console.log(newName)
+                clocks[index].name = newName
+                clocks[index].full = newName
+            }
+        })
+
+        settings.setSync('clocks', clocks)
+        update()
+    })
+
     ipc.on('clock-remove', (e, cityName) => {
         let clocks = settings.getSync('clocks')
         clocks.forEach((clock, index) => {
