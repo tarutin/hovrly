@@ -1,12 +1,11 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-/* @import url('//use.fontawesome.com/releases/v5.1.0/css/all.css'); */
+/* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'); */
 
 * { margin:0; padding:0; outline:none; color:#fff; font-weight:400; font-family:-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Ubuntu, sans-serif; box-sizing:border-box!important; -webkit-box-sizing:border-box!important; }
 *, *:before, *:after { box-sizing:inherit; -webkit-box-sizing:inherit; }
 html, body { font-size:13px; line-height:100%; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
 button, html input[type='button'], input[type='reset'], input[type='submit'] { -webkit-appearance:button; cursor:pointer; }
-.btn { font-weight:400; display:block; color:#fff; width:100%; border:none; background:transparent; text-align:left; padding:10px 20px; font-size:13px; }
-.btn:hover { background:#5B5B5B; }
+.btn { font-weight:400; display:flex; flex-direction:row; align-items:center; color:#fff; width:100%; border:none; line-height:100%; background:transparent; text-align:left; padding:10px 20px; font-size:13px; }
+.btn:hover { background:#33373c; }
 .hidden { display:none!important; }
 
 .titlebar { -webkit-app-region:drag; -webkit-user-select:none; text-align:center; font-size:80%; font-weight:600; padding:10px; opacity:.7; border-bottom:1px solid #222; }
@@ -15,49 +14,52 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .app section { border-bottom:1px solid rgba(255, 255, 255, .1); }
 .app section:last-of-type { border-bottom:none; }
 
-.search { position:relative; background:#0C0F12; }
-.search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 20px 10px 40px; background:url('../static/search-darkmode.svg') no-repeat 15px center; background-size:14px 14px; }
+.search { position:relative; background:transparent; }
+.search input { position:relative; z-index:10; width:100%; background:transparent; font-weight:400; font-size:13px; color:#fff; border:none; padding:10px 20px 10px 40px; background:url('../static/search-darkmode.svg') no-repeat 16px center; background-size:16px 16px; }
 .search label { position:absolute; z-index:9; top:2px; right:0; z-index:9; text-align:right; display:block; width:100%; opacity:.5; padding:10px 15px; font-weight:400; font-size:13px; }
 
-.clock { padding:5px 15px; background:#0C0F12; overflow-y:auto; }
+.clock { padding:5px 15px; background:transparent; overflow-y:auto; }
 .clock button { display:flex; flex-direction:row; align-items:center; width:100%; position:relative; text-align:left; font-weight:400; border:none; padding:0 5px; margin:10px 0px; background:transparent; font-size:13px; }
-.clock button time { margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:12px 12px; padding:3px 4px 3px 20px; }
+.clock button time { margin-left:-5px; margin-right:5px; font-weight:500; text-align:center; width:70px; border-radius:20px; background-position:8px center; background-repeat:no-repeat; background-size:16px 16px; padding:3px 4px 3px 24px; }
 .clock.ampm button time { width:90px; }
-.clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun.svg'); }
-.clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon.svg'); }
-.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; }
-.clock button .name.focus { max-width:150px; white-space:nowrap; overflow:hidden; border:1px solid rgba(0, 0, 0, .15); }
+.clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun-darkmode.svg'); }
+.clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon-darkmode.svg'); }
+.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clock button .name.focus { text-overflow:clip!important; border-color:rgba(255, 255, 255, .15)!important; }
 .clock button .delete { display:none; margin-left:5px; width:24px; height:24px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button:hover .delete { display:inline-flex; }
 .clock button .eye { margin-left:auto; width:24px; height:24px; background:url('../static/eye-closed-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button.active .eye { background-image:url('../static/eye-open-darkmode.svg'); }
 
-.settings button { padding-left:30px; }
-.settings button:before { content:''; padding-left:8px; }
-.settings button.active:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/check-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
+.settings button { padding-left:30px; display:flex; flex-direction:row; align-items:center; }
+.settings button:before { content:''; padding-left:8px; min-height:16px; }
+.settings button.active:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/check-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
 
 .collapse { border-bottom:none!important; }
-.collapse button.toggle { padding:3px 20px; text-align:center; }
-.collapse button.toggle:before { font-family:'FontAwesome'; content:'\f106'; opacity:.3; }
-.app.tiny .collapse button.toggle:before { content:'\f107'; opacity:1; }
-.app.tiny .settings, .app.tiny .we, .app.tiny .quit { display:none; }
+.collapse button.toggle { display:block; line-height:0; border-color:#fff; }
+.collapse button.toggle:before { transform:rotate(180deg); height:8px; display:block; content:''; background:url('../static/collapse-darkmode.svg') no-repeat center center; background-size:16px 16px; }
+
+.app.tiny .collapse button.toggle:before { transform:rotate(0deg); }
+.app.tiny .settings { display:none; }
+.app.tiny .we, .app.tiny .quit { display:none; }
 .app.tiny .collapse button.install { background-color:#2662C1; color:#fff; opacity:1; }
+.app.tiny .collapse button.install:before { background-image:url('../static/collapse.svg'); }
 .app.tiny .collapse button.install:hover { background-color:#3b74cf; }
 
-.update { padding-left:30px; }
-.update:before { content:''; width:15px; height:15px; position:relative; top:2px; margin-left:-16px; margin-right:5px; background:url('../static/loading-darkmode.svg') no-repeat 0px 0px; background-size:15px 15px; display:inline-block; }
+/* .update { padding-left:30px; display:flex; flex-direction:row; align-items:center; } */
+.update:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/loading-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
 .update.loading:before { animation: spinner 1.2s linear infinite; }
 .update.install { background-color:#2662C1; color:#fff; }
 .update.install:hover { background-color:#3b74cf; }
 .update.install .version { opacity:.7; }
-.update .version { font-size:10px; position:relative; text-align:right; top:2px; left:5px; float:right; }
+.update .version { font-size:10px;  margin-left:auto; }
 
 .settings button, .update, .about, .support, .exit { padding-left:30px; }
-.about:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/about-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
-.support:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/donate-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
-.exit:before { content:''; width:13px; height:13px; position:relative; top:1px; margin-left:-15px; margin-right:10px; background:url('../static/exit-darkmode.svg') no-repeat 0px center; background-size:13px 13px; display:inline-block; }
+.about:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/about-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
+.support:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/donate-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
+.exit:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/exit-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
 
-.slider { position:relative; background:#0C0F12; display:block; height:38px; padding:0 15px; }
+.slider { position:relative; background:transparent; display:block; height:38px; padding:0 15px; }
 .slider input { position:relative; z-index:30; background:transparent; width:100%; height:37px; -webkit-appearance:none; appearance:none; }
 .slider input::-webkit-slider-thumb { width:1px; height:37px; background:#2278FF; cursor:pointer; -webkit-appearance:none; appearance:none; }
 .slider .now { position:absolute; z-index:28; top:13px; left:50%; color:#fff; font-size:10px; }
@@ -74,26 +76,30 @@ b, strong { font-weight:600; }
 .light * { color:#000; }
 .light { background:#fff; }
 .light section { border-color:#f7f7f7; }
-.light .search { background:#F2F2F2; border-color:#fff; }
+.light .search { background:#fff; border-color:#F2F2F2; }
 .light .search input { color:#000; background-image:url('../static/search.svg'); }
 .light .search label { color:#000; }
 .light .btn { color:#000; }
-.light .btn:hover { background:#979797; color:#000; }
-.light .clock { background:#F2F2F2; }
+.light .btn:hover { background:#f7f7f7; color:#000; }
+.light .clock { background:#fff; }
 .light .clock button { border-color:#000; color:#000; }
 .light .clock button .delete { background-image:url('../static/remove.svg'); }
 .light .clock button .eye { background-image:url('../static/eye-closed.svg'); }
 .light .clock button.active .eye { background-image:url('../static/eye-open.svg'); }
-.light .slider { background-color:#F2F2F2; border-color:#fff; }
+.light .clock button .name.focus { border-color:rgba(255, 255, 255, .15); }
+.light .clock button time.morning { background-image:url('../static/sun.svg'); }
+.light .clock button time.evening { background-image:url('../static/moon.svg'); }
+.light .slider { background-color:#fff; border-color:#F2F2F2; }
 .light .slider .now, .light .slider .from, .light .slider .to { color:#000; }
 .light .settings button.active:before { background-image:url('../static/check.svg'); }
 .light .update:before { background-image:url('../static/loading.svg'); }
 .light .about:before { background-image:url('../static/about.svg'); }
 .light .support:before { background-image:url('../static/donate.svg'); }
 .light .exit:before { background-image:url('../static/exit.svg'); }
+.light .collapse button.toggle:before { background-image:url('../static/collapse.svg'); }
 
 
 @keyframes spinner {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  100% { transform: rotate(-360deg); }
 }

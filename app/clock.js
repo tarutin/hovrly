@@ -161,10 +161,13 @@ function isDate() {
 
 function parseClockName(name) {
     if(isCompactView() == 'on') {
-        let isDoubleName = (name.split(' ').length - 1) > 0 ? true : false
-
-        if(isDoubleName) {
-            name = name.match(/\b([A-Z])/g).join('')
+        let spaces = (name.split(' ').length - 1)
+        
+        if(spaces == 1 || spaces == 2) {
+            name = name
+                .match(/[\p{Alpha}\p{Nd}]+/gu)
+                .reduce((previous, next) => previous + ((+next === 0 || parseInt(next)) ? parseInt(next): next[0] || ''), '')
+                .toUpperCase()
         }
         else {
             name = name.substring(0, 3).toUpperCase()
@@ -231,7 +234,6 @@ function getTzTime(tz, offset) {
 
 function resetClocks() {
     settings.setSync('clocks', [
-        { name: 'Moscow', full: 'Moscow, RU', timezone: 'Europe/Moscow', tray: 0 },
         { name: 'Berlin', full: 'Berlin, DE', timezone: 'Europe/Berlin', tray: 1 },
         { name: 'New York', full: 'New York, US', timezone: 'America/New_York', tray: 1 },
     ])

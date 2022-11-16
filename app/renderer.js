@@ -55,22 +55,22 @@ function collapse()
     setTimeout(function() {
         if(clock.isCollapsed() == 'on') {
             $('.app').classList.add('tiny')
-            $('.clock').style.maxHeight = '565px'
+            $('.clock').style.maxHeight = '499px'
         }
         else {
             $('.app').classList.remove('tiny')
-            $('.clock').style.maxHeight = '310px'
+            $('.clock').style.maxHeight = '210px'
         }
     }, 1)
 
     $('.collapse .toggle').addEventListener('click', e => {
         if($('.app').classList.contains('tiny')) {
             $('.app').classList.remove('tiny')
-            $('.clock').style.maxHeight = '310px'
+            $('.clock').style.maxHeight = '210px'
         }
         else {
             $('.app').classList.add('tiny')
-            $('.clock').style.maxHeight = '565px'
+            $('.clock').style.maxHeight = '499px'
         }
 
         updateAppHeight()
@@ -124,7 +124,7 @@ function update()
 
         if(result == 'dev-mode') {
             $('.update').classList.remove('loading')
-            $('.update-message').innerHTML = `<span class='gray'>Not working on Development</span>`
+            $('.update-message').innerHTML = `<span class='gray'>Not working on Dev</span>`
             setTimeout(() => { $('.update-message').innerText = 'Check for Update' }, 3000)
         }
 
