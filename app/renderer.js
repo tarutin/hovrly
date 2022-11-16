@@ -41,7 +41,7 @@ function sortable()
         onUpdate: () => {
             let sortTo = []
             $all('.clock button').forEach(item => {
-                let name = item.getAttribute('data-name')
+                let name = item.querySelector('.name').innerText
                 sortTo.push(name)
             })
 
@@ -318,7 +318,7 @@ function clocks()
             <span class='eye'></span>
         `
         // button.setAttribute('data-id', $('.clock button').length+1)
-        button.setAttribute('data-name', clock.name)
+        // button.setAttribute('data-name', clock.name)
 
         // rename
             
@@ -372,14 +372,14 @@ function clocks()
         // show/hide
         button.querySelector('.eye').addEventListener('click', e => {
             e.stopPropagation()
-            e.target.closest('button').classList.toggle('active')
-            ipc.send('clock-toggle', e.target.closest('button').getAttribute('data-name'))
+            button.classList.toggle('active')
+            ipc.send('clock-toggle', button.querySelector('.name').innerText)
         })
 
         // delete
         button.querySelector('.delete').addEventListener('click', e => {
             e.stopPropagation()
-            ipc.send('clock-remove', button.getAttribute('data-name'))
+            ipc.send('clock-remove', button.querySelector('.name').innerText)
             button.parentNode.removeChild(button)
             updateAppHeight()
         })

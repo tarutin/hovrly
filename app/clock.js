@@ -75,7 +75,7 @@ function init() {
 
         sortTo.forEach(to => {
             clocks.forEach(from => {
-                if(from.name.replace(/[^a-z0-9]/gi, '') == to.replace(/[^a-z0-9]/gi, '')) {
+                if(from.full.trim() == to.trim()) {
                     newClocks.push(from)
                 }
             })
@@ -92,7 +92,7 @@ function init() {
         let issetClock = false
 
         clocks.forEach(clock => {
-            if (clock.name.replace(/[^a-z0-9]/gi, '') == city.name.replace(/[^a-z0-9]/gi, '')) {
+            if (clock.full.trim() == city.full.trim()) {
                 issetClock = true
             }
         })
@@ -108,8 +108,7 @@ function init() {
     ipc.on('clock-rename', (e, oldName, newName) => {
         let clocks = settings.getSync('clocks')
         clocks.forEach((clock, index) => {
-            if (clock.full.replace(/[^a-z0-9]/gi, '') == oldName.replace(/[^a-z0-9]/gi, '')) {
-                console.log(newName)
+            if (clock.full.trim() == oldName.trim()) {
                 clocks[index].name = newName
                 clocks[index].full = newName
             }
@@ -122,7 +121,7 @@ function init() {
     ipc.on('clock-remove', (e, cityName) => {
         let clocks = settings.getSync('clocks')
         clocks.forEach((clock, index) => {
-            if (clock.name.replace(/[^a-z0-9]/gi, '') == cityName.replace(/[^a-z0-9]/gi, '')) {
+            if (clock.full.trim() == cityName.trim()) {
                 clocks.splice(index, 1)
             }
         })
@@ -134,7 +133,7 @@ function init() {
     ipc.on('clock-toggle', (e, cityName) => {
         let clocks = settings.getSync('clocks')
         clocks.forEach((clock, index) => {
-            if (clock.name.replace(/[^a-z0-9]/gi, '') == cityName.replace(/[^a-z0-9]/gi, '')) {
+            if (clock.full.trim() == cityName.trim()) {
                 clocks[index].tray = clock.tray ? false : true
             }
         })

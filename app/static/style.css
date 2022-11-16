@@ -25,11 +25,11 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#DCA720; color:#000; background-image:url('../static/sun.svg'); }
 .clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon.svg'); }
-.clock button .name { border:1px solid transparent; padding:1px 5px; border-radius:5px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; }
-.clock button .name.focus { max-width:150px; white-space:nowrap; overflow:hidden; border:1px solid #5B5B5B; }
-.clock button .delete { display:none; margin-left:5px; width:16px; height:16px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
+.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; }
+.clock button .name.focus { max-width:150px; white-space:nowrap; overflow:hidden; border:1px solid rgba(0, 0, 0, .15); }
+.clock button .delete { display:none; margin-left:5px; width:24px; height:24px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button:hover .delete { display:inline-flex; }
-.clock button .eye { margin-left:auto; width:16px; height:16px; background:url('../static/eye-closed-darkmode.svg') no-repeat center center; background-size:16px 16px; }
+.clock button .eye { margin-left:auto; width:24px; height:24px; background:url('../static/eye-closed-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button.active .eye { background-image:url('../static/eye-open-darkmode.svg'); }
 
 .settings button { padding-left:30px; }
