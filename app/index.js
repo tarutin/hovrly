@@ -1,4 +1,4 @@
-console.time('init')
+console.time('inited')
 
 const config = require('./config')
 const path = require('path')
@@ -14,6 +14,7 @@ const clock = require('./clock')
 const notice = require('./notice')
 const updater = require('./updater')
 const system = electron.systemPreferences
+const session = electron.session
 const db = require('./db')
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
@@ -37,11 +38,9 @@ app.whenReady().then(() => {
             app.dock.hide()
         }
 
-        setTimeout(function() {
-            updater.auto()
-        }, config.DELAYED_INIT)
+        setTimeout(updater.auto, config.DELAYED_INIT)
 
-        console.timeEnd('init')
+        console.timeEnd('inited')
     })
 
     ipc.on('exit', app.quit)
