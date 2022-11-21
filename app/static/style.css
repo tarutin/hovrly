@@ -24,7 +24,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#F9C133; color:#000; background-image:url('../static/sun-darkmode.svg'); }
 .clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon-darkmode.svg'); }
-.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .clock button .name.focus { text-overflow:clip!important; border-color:rgba(255, 255, 255, .15)!important; }
 .clock button .delete { display:none; margin-left:5px; width:24px; height:24px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button:hover .delete { display:inline-flex; }
@@ -41,7 +41,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 
 .app.tiny .collapse button.toggle:before { transform:rotate(0deg); }
 .app.tiny .settings { display:none; }
-.app.tiny .we, .app.tiny .quit { display:none; }
+/* .app.tiny .we, .app.tiny .quit { display:none; } */
 .app.tiny .collapse button.install { background-color:#2662C1; color:#fff; opacity:1; }
 .app.tiny .collapse button.install:before { background-image:url('../static/collapse.svg'); }
 .app.tiny .collapse button.install:hover { background-color:#3b74cf; }
@@ -52,7 +52,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .update.install { background-color:#2662C1; color:#fff; }
 .update.install:hover { background-color:#3b74cf; }
 .update.install .version { opacity:.7; }
-.update .version { font-size:10px;  margin-left:auto; }
+.update .version { font-size:10px; margin-left:auto; }
 
 .settings button, .update, .about, .support, .exit { padding-left:30px; }
 .about:before { content:''; width:16px; height:16px; margin-left:-18px; margin-right:10px; background:url('../static/about-darkmode.svg') no-repeat center center; background-size:16px 16px; display:inline-block; }
@@ -89,10 +89,15 @@ b, strong { font-weight:600; }
 .light .clock button .name.focus { border-color:rgba(255, 255, 255, .15); }
 .light .clock button time.morning { background-image:url('../static/sun.svg'); }
 .light .clock button time.evening { background-image:url('../static/moon.svg'); }
+.light .clock button .name.focus { border-color:rgba(0, 0, 0, .15)!important; }
 .light .slider { background-color:#fff; border-color:#F2F2F2; }
 .light .slider .now, .light .slider .from, .light .slider .to { color:#000; }
 .light .settings button.active:before { background-image:url('../static/check.svg'); }
 .light .update:before { background-image:url('../static/loading.svg'); }
+.light .update.install:before { background-image:url('../static/loading-darkmode.svg'); }
+.light .update.install { background-color:#2662C1; }
+.light .update.install * { color:#fff; }
+.light .update.install:hover { background-color:#3b74cf; }
 .light .about:before { background-image:url('../static/about.svg'); }
 .light .support:before { background-image:url('../static/donate.svg'); }
 .light .exit:before { background-image:url('../static/exit.svg'); }

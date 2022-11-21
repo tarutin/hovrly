@@ -329,6 +329,7 @@ function clocks()
                 e.stopPropagation()
                 let input = e.target.closest('.name')
                 input.classList.add('focus')
+                input.scrollLeft = 0
                 inputPrevName = input.innerText
             })
             
@@ -338,6 +339,7 @@ function clocks()
                 let input = e.target.closest('.name')
                 input.classList.remove('focus')
                 input.blur()
+                input.scrollLeft = 0
                 input.innerText = inputPrevName
             })
 
