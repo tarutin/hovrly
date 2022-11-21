@@ -6,8 +6,8 @@
   "main": "app/index.js",
   "scripts": {
     "start": "DEV=true electron .",
-    "build": "electron-builder build --mac --publish never",
-    "publish": "electron-builder build --mac --publish always",
+    "build": "electron-builder build --mac --universal --publish never",
+    "publish": "electron-builder build --mac --universal --publish always",
     "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/Electron.app",
     "postinstall": "npm run sign-dev-electron-app"
   },
