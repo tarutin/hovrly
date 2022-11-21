@@ -20,7 +20,6 @@ function init() {
         url: `${config.UPDATER_CHECK_URL}/update/${process.platform}/${app.getVersion()}`
     });
 
-
     ipc.on('update-check', function() {
         if(isDev) {
             win.webContents.send('update-finish', 'dev-mode')
@@ -28,6 +27,11 @@ function init() {
         }
 
         autoUpdater.checkForUpdates()
+    })
+
+    ipc.on('update-install', function() {
+        autoUpdater.quitAndInstall()
+        setTimeout(app.quit, 1000)
     })
 
     autoUpdater.on('update-downloaded', (event, notes, name, date, url) => {
@@ -47,11 +51,6 @@ function init() {
         }
 
         win.webContents.send('update-finish', 'downloaded')
-
-        ipc.on('update-install', function() {
-            autoUpdater.quitAndInstall()
-            setTimeout(app.quit, 1000)
-        })
     })
 
     autoUpdater.on('checking-for-update', () => {

@@ -112,11 +112,15 @@ function slider()
 function update()
 {
     $('.update').addEventListener('click', () => {
-        if($('.update').classList.contains('install')) return
-
-        $('.update').classList.add('loading')
-        $('.update-message').innerText = 'Checking...'
-        ipc.send('update-check')
+        if($('.update').classList.contains('install')) {
+            $('.update').classList.add('loading')
+            ipc.send('update-install')
+        }
+        else {
+            $('.update').classList.add('loading')
+            $('.update-message').innerText = 'Checking...'
+            ipc.send('update-check')
+        }
     })
 
     ipc.on('update-finish', (e, result) => {
@@ -131,13 +135,9 @@ function update()
         if(result == 'downloaded') {
             $('.update').classList.add('install')
             $('.update').classList.remove('loading')
-            $('.update-message').innerText = `Ready! Please Relaunch ${config.APP_NAME}` // 'Install Update & Restart'
+            $('.update-message').innerText = 'Install Update & Restart' // `Ready! Please Relaunch ${config.APP_NAME}`
             $('.app.tiny .collapse button').classList.add('install')
 
-            $('.update.install').addEventListener('click', () => {
-                $('.update').classList.add('loading')
-                ipc.send('update-install')
-            })
         }
 
         if(result == 'available') {

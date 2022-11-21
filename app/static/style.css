@@ -41,7 +41,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 
 .app.tiny .collapse button.toggle:before { transform:rotate(0deg); }
 .app.tiny .settings { display:none; }
-/* .app.tiny .we, .app.tiny .quit { display:none; } */
+.app.tiny .we, .app.tiny .quit { display:none; }
 .app.tiny .collapse button.install { background-color:#2662C1; color:#fff; opacity:1; }
 .app.tiny .collapse button.install:before { background-image:url('../static/collapse.svg'); }
 .app.tiny .collapse button.install:hover { background-color:#3b74cf; }
@@ -102,6 +102,7 @@ b, strong { font-weight:600; }
 .light .support:before { background-image:url('../static/donate.svg'); }
 .light .exit:before { background-image:url('../static/exit.svg'); }
 .light .collapse button.toggle:before { background-image:url('../static/collapse.svg'); }
+.light .app.tiny .collapse button.install:before { background-image:url('../static/collapse-darkmode.svg')!important; }
 
 
 @keyframes spinner {
