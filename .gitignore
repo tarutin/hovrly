@@ -3,6 +3,7 @@ builds
 macos
 electron-builder.yml
 package-lock.json
+dist
 
 .DS_*
 .Trashes
