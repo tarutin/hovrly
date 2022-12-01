@@ -325,7 +325,7 @@ function clocks()
             var inputPrevName = ''
             
             // activate
-            button.querySelector('.name').addEventListener('click', e => {
+            button.querySelector('.name').addEventListener('focus', e => {
                 e.stopPropagation()
                 let input = e.target.closest('.name')
                 input.classList.add('focus')
@@ -345,11 +345,13 @@ function clocks()
 
             // paste
             button.querySelector('.name').addEventListener('paste', e => {
-                e.preventDefault()
-                let input = e.target.closest('.name')
-                let text = (e.originalEvent || e).clipboardData.getData('text/plain');
-                document.execCommand('insertHTML', false, text);
+                let ev = (e.originalEvent || e)
+                let input = ev.target.closest('.name')
+                let text = ev.clipboardData.getData('text/plain')
                 inputPrevName = input.innerText
+                text = text.replace(/<\/?[^>]+(>|$)/g, '').trim()
+                document.execCommand('insertHTML', false, text)
+                e.preventDefault()
             })
             
             button.querySelector('.name').addEventListener('keydown', e => {

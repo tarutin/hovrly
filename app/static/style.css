@@ -24,7 +24,7 @@ button, html input[type='button'], input[type='reset'], input[type='submit'] { -
 .clock.ampm button time { width:90px; }
 .clock button time.morning { background-color:#F9C133; color:#000; background-image:url('../static/sun-darkmode.svg'); }
 .clock button time.evening { background-color:#2B2E75; color:#fff; background-image:url('../static/moon-darkmode.svg'); }
-.clock button .name { border:1px solid transparent; padding:3px 6px; border-radius:4px; cursor:text; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.clock button .name { border:1px solid transparent; line-height:100%!important; padding:3px 6px; border-radius:4px; cursor:text; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .clock button .name.focus { text-overflow:clip!important; border-color:rgba(255, 255, 255, .15)!important; }
 .clock button .delete { display:none; margin-left:5px; width:24px; height:24px; background:url('../static/remove-darkmode.svg') no-repeat center center; background-size:16px 16px; }
 .clock button:hover .delete { display:inline-flex; }

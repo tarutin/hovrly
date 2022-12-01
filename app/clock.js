@@ -161,16 +161,21 @@ function isDate() {
 
 function parseClockName(name) {
     if(isCompactView() == 'on') {
-        let spaces = (name.split(' ').length - 1)
+        let isEmoji = /\p{Emoji}/ug.test(name)
+        let isEmojiExtended = /\p{Extended_Pictographic}/ug.test(name)
         
-        if(spaces == 1 || spaces == 2) {
-            name = name
-                .match(/[\p{Alpha}\p{Nd}]+/gu)
-                .reduce((previous, next) => previous + ((+next === 0 || parseInt(next)) ? parseInt(next): next[0] || ''), '')
-                .toUpperCase()
-        }
-        else {
-            name = name.substring(0, 3).toUpperCase()
+        if(!isEmoji && !isEmojiExtended) {
+            let spaces = (name.split(' ').length - 1)
+            
+            if(spaces == 1 || spaces == 2) {
+                name = name
+                    .match(/[\p{Alpha}\p{Nd}]+/gu)
+                    .reduce((previous, next) => previous + ((+next === 0 || parseInt(next)) ? parseInt(next): next[0] || ''), '')
+                    .toUpperCase()
+            }
+            else {
+                name = name.substring(0, 3).toUpperCase()
+            }
         }
     }
 
