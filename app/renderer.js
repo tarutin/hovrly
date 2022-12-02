@@ -289,8 +289,9 @@ function search()
 
                 db.find(query, city => {
                     if(city.name && !city.timezone) return
-                    $('.search label').innerText = !city.name ? 'Not found' : city.name + ', ' + city.code
-                    newclock = city.name ? { name: city.name, full: city.name + ', ' + city.code, timezone: city.timezone, tray: 0 } : null
+                    let fullName = city.name + (city.code ? ', ' + city.code : '')
+                    $('.search label').innerText = !city.name ? 'Not found' : fullName
+                    newclock = city.name ? { name: city.name, full: fullName, timezone: city.timezone, tray: 0 } : null
                 })
             }
         }
@@ -324,6 +325,20 @@ function clocks()
             
             var inputPrevName = ''
             
+            // mouseover
+            button.querySelector('.name').addEventListener('mouseover', e => {
+                e.target.closest('.name').classList.add('hover')
+            })
+            
+            // mouseout
+            button.querySelector('.name').addEventListener('mouseout', e => {
+                let input = e.target.closest('.name')
+                
+                if(!input.classList.contains('focus')) {
+                    input.classList.remove('hover')
+                }
+            })
+            
             // activate
             button.querySelector('.name').addEventListener('focus', e => {
                 e.stopPropagation()
@@ -337,7 +352,7 @@ function clocks()
             button.querySelector('.name').addEventListener('blur', e => {
                 e.stopPropagation()
                 let input = e.target.closest('.name')
-                input.classList.remove('focus')
+                input.classList.remove('focus', 'hover')
                 input.blur()
                 input.scrollLeft = 0
                 input.innerText = inputPrevName
@@ -366,7 +381,7 @@ function clocks()
                 }
                 
                 if(keycode == 27) {
-                    input.classList.remove('focus')
+                    input.classList.remove('focus', 'hover')
                     input.innerText = inputPrevName
                     input.blur()
                     e.preventDefault()
