@@ -444,14 +444,15 @@ function sliderRecalc()
 {
     let el = $('.slider input')
     let format = clock.formatTime(el.value * 60 * 1000, true)
+    let is24H = clock.isTwentyFourHour() == 'on' ? true : false
 
     $('.slider .now').innerText = format.time
-    $('.slider .from').style.opacity = el.value < 200 ? 0 : 0.3
-    $('.slider .to').style.opacity =  el.value > 1080 ? 0 : 0.3
+    $('.slider .from').style.opacity = el.value < (is24H ? 200 : 250) ? 0 : 0.3
+    $('.slider .to').style.opacity =  el.value > (is24H ? 1080 : 950) ? 0 : 0.3
     updateTime()
 
     let left = el.offsetWidth * (el.value - el.min) / (el.max - el.min)
-    let ampm_offset = clock.isTwentyFourHour() == 'on' ? 23 : 38
+    let ampm_offset = is24H ? 23 : 38
     left = el.value < 1260 ? left + 25 : left - ampm_offset
     $('.slider .now').style.left = `${left}px`
 }
