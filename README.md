@@ -5,7 +5,6 @@
 ## Download & Install
 via Brew
 ```
-brew update
 brew install hovrly
 ```
 Or
