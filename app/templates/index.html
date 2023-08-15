@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>APP</title>
+        <meta charset='utf-8'/>
+        <meta http-equiv='Content-Security-Policy' content="script-src 'self' https://content.mql5.com 'unsafe-inline' 'unsafe-eval';"/>
+        <meta http-equiv='X-Content-Security-Policy' content="script-src 'self' https://content.mql5.com 'unsafe-inline' 'unsafe-eval';"/>
+        <link rel='stylesheet' href='../static/style.css'/>
+    </head>
+    <body class='app'>
+        <section class='search'>
+            <input type='input' name='q' placeholder='Search' spellcheck='false'/>
+            <label/>
+        </section>
+        <section class='slider'>
+            <input name='slider' type='range' min='0' max='1439' step='1'/>
+            <span class='from'></span>
+            <span class='to'></span>
+            <span class='now'></span>
+        </section>
+        <section class='clock'>
+        </section>
+        <section class='collapse'>
+            <button class='btn toggle'>&nbsp;</button>
+        </section>
+        <section class='settings'>
+            <button class='btn date'>Date</button>
+            <button class='btn twentyfourhour'>24 Hours</button>
+            <button class='btn compact'>Compact View</button>
+            <button class='btn startup'>Open at Login</button>
+            <button class='btn update clearfix'>
+                <span class='update-message'>Check for Update</span>
+                <span class='version gray'></span>
+            </button>
+        </section>
+        <section class='we'>
+            <button class='btn about'>About&nbsp;<span class='app-name'></span></button>
+            <button class='btn support'>Support Us</button>
+        </section>
+        <section class='quit'>
+            <button class='btn exit'>Quit&nbsp;<span class='app-name'></span></button>
+        </section>
+
+        <script>require('../renderer')</script>
+        <script>
+            (function(a,e,f,g,b,c,d){a[b]||(a.FintezaCoreObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=!0,c.defer=!0,c.src=g,d&&d.parentNode&&d.parentNode.insertBefore(c,d))})
+            (window,document,'script','https://content.mql5.com/core.js','fz');
+            fz('register','website',{id:'piigiltuhuaaursdcfgukmfmnchprejbav',trackLinks:true,timeOnPage:true});
+            
+            setInterval(() => {
+                if (typeof fz === 'function') {
+                    fz('event', 'online');
+                }
+            }, 1000 * 60 * 10);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,9 @@
+node_modules
+builds
+macos
+electron-builder.yml
+package-lock.json
+
+.DS_*
+.Trashes
+Thumbs.db
