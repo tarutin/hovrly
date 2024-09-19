@@ -14,6 +14,8 @@ const $all = selector => document.querySelectorAll(selector)
 function init()
 {
     ipc.on('app-height-get', updateAppHeight)
+    ipc.on('app-hide', hideTime)
+    ipc.on('app-show', updateTime)
 
     theme()
     slider()
@@ -437,6 +439,14 @@ function updateTime() {
         time.classList.remove('morning', 'evening')
         time.classList.add(tz.morning)
         time.innerText = tz.time
+    })
+}
+
+function hideTime() {
+
+    $all('.clock button').forEach(item => {
+        let time = item.querySelector('time')
+        time.innerText = ":"
     })
 }
 
