@@ -28,6 +28,7 @@ function init() {
         movable: false,
         icon: config.DOCK_ICON,
         skipTaskbar: true,
+        alwaysOnTop: true,
         webPreferences: {
             preload: `${__dirname}/preload.js`,
             nodeIntegration: true,
@@ -39,7 +40,8 @@ function init() {
     positioner = new Positioner(win)
 
     win.webContents.loadURL(`file://${__dirname}/templates/index.html`)
-    win.setVisibleOnAllWorkspaces(true)
+    win.setAlwaysOnTop(true, 'floating', 1)
+    win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
     if(isDev && config.DEV_TOOLS) win.webContents.openDevTools();
 
     win.once('ready-to-show', () => {
@@ -69,7 +71,10 @@ function getWin() {
 function show() {
     let position = positioner.calculate('trayLeft', tray.getBounds())
     win.setPosition(position.x - 7, position.y + 10, false)
-    win.show()
+    win.setAlwaysOnTop(true, 'floating', 1)
+    win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+    win.showInactive()
+    win.focus()
 }
 
 function hide() {

@@ -24,6 +24,10 @@ app.console = new console.Console(process.stdout, process.stderr)
 app.whenReady().then(() => {
     console.log('index init')
 
+    if (process.platform === 'darwin') {
+        app.dock.hide()
+    }
+
     window.init()
     menu.init()
     tray.init()
@@ -34,10 +38,6 @@ app.whenReady().then(() => {
     db.init()
 
     ipc.on('ready', () => {
-        if(process.platform == 'darwin') {
-            app.dock.hide()
-        }
-
         setTimeout(updater.auto, config.DELAYED_INIT)
 
         console.timeEnd('inited')
